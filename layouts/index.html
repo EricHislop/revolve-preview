@@ -54,12 +54,12 @@
             <span class="slide-surname" aria-hidden="true">{{ index (split $p.Title " ") 1 }}</span>
             {{ end }}
             <span class="slide-n">{{ printf "%02d" .Params.order }}</span>
-            <span class="slide-nameplate">
-              <span class="slide-name">{{ .Title }}</span>
-              <span class="slide-role">{{ .Params.role }}</span>
-            </span>
           </div>
           <div class="slide-body">
+            <div class="slide-nameplate">
+              <h3 class="slide-name">{{ .Title }}</h3>
+              <span class="slide-role">{{ .Params.role }}</span>
+            </div>
             <p class="slide-kicker">{{ .Params.summary }}</p>
             <div class="slide-text">{{ .Content }}</div>
             <ul class="slide-tags">{{ range .Params.specialities }}<li>{{ . }}</li>{{ end }}</ul>
@@ -70,7 +70,7 @@
             {{ with .Params.quote }}
             <figure class="slide-quote">
               <blockquote>{{ . }}</blockquote>
-              <figcaption>{{ $.Params.quote_by }}</figcaption>
+              <figcaption>{{ $p.Params.quote_by }}</figcaption>
             </figure>
             {{ end }}
             <div class="slide-actions">
