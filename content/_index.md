@@ -6,7 +6,7 @@ hero:
   title_html: "Personal,<br><em>not packed</em>."
   sub: "A private training studio in Tawa. One on one or small group, no contracts, from $30 a session."
 stats:
-  - num: "9"
+  - num: "8"
     label: "trainers, all under one roof"
   - num: "0"
     label: "contracts, ever"
