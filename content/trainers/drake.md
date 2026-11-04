@@ -1,4 +1,6 @@
 +++
+[_build]
+  render = "never"
 title = "Drake Baldwin"
 role = "Director, Personal Trainer"
 initials = "DB"

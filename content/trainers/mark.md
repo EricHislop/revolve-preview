@@ -1,4 +1,6 @@
 +++
+[_build]
+  render = "never"
 title = "Mark Anderson"
 role = "Personal Trainer"
 initials = "MA"

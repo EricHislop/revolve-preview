@@ -1,4 +1,6 @@
 +++
+[_build]
+  render = "never"
 title = "Megan Duell"
 role = "Director, Personal Trainer"
 initials = "MD"
