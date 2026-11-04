@@ -1,26 +1,26 @@
 ---
 title: "Revolve Fitness"
-description: "A small, private personal training studio in Tawa, Wellington. One on one or small group, no contracts, from $20 a session."
+description: "A small, private personal training studio in Tawa, Wellington. One on one or small group, no contracts, from $30 a session."
 hero:
   kicker: "Tawa, Wellington"
   title_html: "Personal,<br><em>not packed</em>."
-  sub: "A private training studio in Tawa. One on one or small group, no contracts, from $20 a session."
+  sub: "A private training studio in Tawa. One on one or small group, no contracts, from $30 a session."
 stats:
-  - n: "9"
+  - num: "9"
     label: "trainers, all under one roof"
-  - n: "0"
+  - num: "0"
     label: "contracts, ever"
-  - n: "$20"
+  - num: "$30"
     label: "for a half hour session"
-  - n: "20"
+  - num: "20"
     label: "years of the over 60s class"
 services:
   - title: "One to one"
     body: "Your own trainer, your own programme, half an hour or a full one. The reason people stay for years."
-    meta: "From $20"
+    meta: "From $30"
   - title: "Small group"
     body: "Two or three of you, one trainer, the same attention at a friendlier price."
-    meta: "From $20"
+    meta: "From $30"
   - title: "Over 60s class"
     body: "Supervised classes for strength, balance, bone density and confidence. Running for more than 20 years."
     meta: "Mark leads it"
@@ -50,7 +50,7 @@ booking:
     - id: "pt30"
       name: "Personal training"
       length: "30 minutes"
-      price: 20
+      price: 30
     - id: "pt60"
       name: "Personal training"
       length: "60 minutes"
@@ -58,7 +58,7 @@ booking:
     - id: "group"
       name: "Small group"
       length: "30 minutes"
-      price: 20
+      price: 30
     - id: "massage"
       name: "Massage"
       length: "30 minutes"

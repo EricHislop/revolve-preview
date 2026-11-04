@@ -2,7 +2,7 @@
 title = "Wei Ren"
 role = "Personal Trainer"
 initials = "WR"
-photo = "wei-bio.jpeg"
+photo = ""
 order = 6
 specialities = ["Weight loss", "Strength", "Martial arts"]
 qualifications = ["Certified Personal Trainer", "22 years of martial arts"]

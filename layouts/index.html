@@ -36,7 +36,7 @@
     <div class="wrap">
       {{ range .Params.stats }}
       <div class="stat">
-        <span class="stat-n">{{ .n }}</span>
+        <span class="stat-n">{{ .num }}</span>
         <span class="stat-l">{{ .label }}</span>
       </div>
       {{ end }}
@@ -66,25 +66,35 @@
                 hx-get="{{ .RelPermalink }}" hx-target="#sheet" hx-swap="outerHTML" hx-select="#sheet"
                 hx-on::after-request="document.getElementById('sheet-wrap').classList.add('is-open'); document.getElementById('sheet-wrap').setAttribute('aria-hidden','false')"
                 aria-label="Read more about {{ .Title }}">
-          <span class="tcard-media">
-            {{ with .Params.photo }}
-            <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $.Title }}" loading="lazy" decoding="async">
-            {{ else }}
-            <span class="tcard-type" aria-hidden="true"><span>{{ .Params.initials }}</span></span>
-            {{ end }}
-          </span>
-          <span class="tcard-body">
-            <span class="tcard-num">{{ printf "%02d" .Params.order }}</span>
-            <span class="tcard-name">{{ .Title }}</span>
-            <span class="tcard-role">{{ .Params.role }}</span>
-            <span class="tcard-sum">{{ .Params.summary }}</span>
-            <span class="tcard-cta">View profile <span aria-hidden="true">→</span></span>
+          <span class="tcard-poster">
+            <span class="tcard-img">
+              {{ with .Params.photo }}
+              <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $.Title }}" loading="lazy" decoding="async">
+              {{ else }}
+              <span class="tcard-mono" aria-hidden="true"><span>{{ .Params.initials }}</span></span>
+              {{ end }}
+              <span class="tcard-wash" aria-hidden="true"></span>
+              <span class="tcard-n">{{ printf "%02d" .Params.order }}</span>
+              <span class="tcard-id">
+                <span class="tcard-name">{{ .Title }}</span>
+                <span class="tcard-role">{{ .Params.role }}</span>
+              </span>
+            </span>
+            <span class="tcard-meta">
+              <span class="tcard-sum">{{ .Params.summary }}</span>
+              <span class="tcard-tags">{{ range .Params.specialities }}<span>{{ . }}</span>{{ end }}</span>
+              <span class="tcard-cta">Read profile <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></span>
+            </span>
           </span>
         </button>
       </article>
       {{ end }}
     </div>
-    <p class="carousel-hint wrap">Swipe through the team. Tap anyone to read their story.</p>
+    <div class="car-foot wrap">
+      <span class="car-count"><b data-car-index>01</b> / {{ printf "%02d" (len (where .Site.RegularPages "Section" "trainers")) }}</span>
+      <span class="car-bar" aria-hidden="true"><i data-car-progress></i></span>
+      <span class="car-hint">Swipe or drag</span>
+    </div>
   </section>
 
   <section class="section sessions" id="sessions">

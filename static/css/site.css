@@ -734,3 +734,146 @@ body.menu-open .nav-book { visibility: hidden; }
 /* the menu sits under the bar, so the close button stays reachable */
 body.menu-open .nav { z-index: 80; background: var(--bg); border-bottom-color: var(--line); backdrop-filter: none; }
 body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
+
+/* ---------- pass five: the roster is the feature ---------- */
+
+.brand-logo { height: 34px; width: auto; display: block; }
+[data-theme="bone"] .brand-logo { filter: invert(1); }
+.foot-logo { height: 30px; width: auto; display: block; }
+[data-theme="bone"] .foot-logo { filter: invert(1); }
+.brand-sub { display: none; }
+
+.tcard { width: clamp(292px, 31vw, 436px); }
+.tcard-poster {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 3 / 4.32;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.tcard-img { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.tcard-img img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%;
+  filter: grayscale(1) contrast(1.1) brightness(0.86);
+  transform: scale(1.01);
+  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
+}
+.tcard-hit:hover .tcard-img img { filter: grayscale(0) contrast(1.02) brightness(0.96); transform: scale(1.05); }
+
+.tcard-mono {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(96px, 10vw, 168px);
+  letter-spacing: -0.055em;
+  color: var(--accent-ink);
+  background:
+    radial-gradient(120% 90% at 28% 14%, color-mix(in srgb, var(--ink) 12%, transparent), transparent 58%),
+    var(--accent);
+}
+.tcard-mono::after {
+  content: ""; position: absolute; inset: 18px;
+  border: 1px solid color-mix(in srgb, var(--accent-ink) 18%, transparent);
+  border-radius: 12px;
+}
+
+.tcard-n {
+  position: absolute; top: 14px; left: 14px;
+  padding: 5px 10px; border-radius: 999px;
+  background: color-mix(in srgb, #0a0a0b 62%, transparent);
+  backdrop-filter: blur(6px);
+  color: #f4f1ea;
+  font-size: 11px; letter-spacing: 0.16em; font-variant-numeric: tabular-nums;
+}
+.tcard-arrow {
+  position: absolute; top: 12px; right: 12px;
+  width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, #0a0a0b 55%, transparent);
+  backdrop-filter: blur(6px);
+  color: #f4f1ea;
+  transition: background 0.25s, color 0.25s, transform 0.3s var(--ease);
+}
+.tcard-arrow svg { width: 17px; height: 17px; }
+.tcard-hit:hover .tcard-arrow { background: var(--accent); color: var(--accent-ink); transform: translate(2px, -2px); }
+
+.tcard-meta {
+  flex: none;
+  padding: 18px 20px 20px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+}
+.tcard-name {
+  display: block;
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(23px, 2vw, 30px);
+  line-height: 0.98; letter-spacing: -0.025em; text-transform: uppercase;
+}
+.tcard-role { display: block; margin-top: 7px; font-size: 11.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+.tcard-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tcard-tags span { font-size: 11.5px; padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+
+.car-foot { display: flex; align-items: center; gap: 18px; margin-top: 22px; }
+.car-count { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; color: var(--muted); }
+.car-count b { color: var(--ink); font-weight: 800; }
+.car-bar { flex: 1; height: 2px; background: var(--line); position: relative; overflow: hidden; border-radius: 2px; }
+.car-bar i { position: absolute; inset: 0 auto 0 0; width: 20%; background: var(--accent); transition: width 0.15s linear; }
+.car-hint { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+@media (max-width: 620px) {
+  .tcard { width: min(78vw, 330px); }
+  .tcard-name { font-size: 26px; }
+  .car-foot { margin-top: 16px; gap: 12px; }
+  .car-hint { display: none; }
+}
+
+/* ---------- pass six: type leads, lime is an accent ---------- */
+
+.tcard-poster { aspect-ratio: 3 / 4.5; border-radius: 18px; }
+.tcard-img { flex: 1 1 auto; }
+.tcard-wash {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(8,8,9,0.05) 34%, rgba(8,8,9,0.55) 72%, rgba(8,8,9,0.92) 100%);
+}
+.tcard-mono {
+  background:
+    radial-gradient(90% 70% at 26% 10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 62%),
+    linear-gradient(165deg, var(--bg-3), var(--bg-2) 72%);
+}
+.tcard-mono span {
+  color: transparent;
+  -webkit-text-stroke: 1.4px color-mix(in srgb, var(--accent) 88%, transparent);
+  font-size: clamp(96px, 10vw, 168px); letter-spacing: -0.055em;
+}
+.tcard-mono::after { border-color: color-mix(in srgb, var(--ink) 10%, transparent); }
+
+.tcard-id { position: absolute; left: 20px; right: 20px; bottom: 18px; }
+.tcard-name {
+  display: block; color: #f4f1ea;
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(27px, 2.5vw, 38px); line-height: 0.96; letter-spacing: -0.03em; text-transform: uppercase;
+}
+.tcard-role { display: block; margin-top: 7px; font-size: 11.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+.tcard-meta { display: flex; flex-direction: column; gap: 12px; padding: 17px 20px 18px; }
+.tcard-sum { font-size: 14px; line-height: 1.42; color: color-mix(in srgb, var(--ink) 76%, transparent); }
+.tcard-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.tcard-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); transition: color 0.2s, gap 0.2s; }
+.tcard-cta svg { width: 15px; height: 15px; }
+.tcard-hit:hover .tcard-cta { color: var(--accent); gap: 12px; }
+.tcard-arrow { display: none; }
+.brand-logo { height: 36px; }
+@media (max-width: 860px) { .brand-logo { height: 30px; } .nav { gap: 12px; } .nav-book { padding: 0 16px; font-size: 13.5px; } }
+
+/* ---------- pass seven: text never depends on the photo behind it ---------- */
+.tcard-wash {
+  background: linear-gradient(180deg, rgba(8,8,9,0.02) 26%, rgba(8,8,9,0.62) 58%, rgba(8,8,9,0.96) 100%);
+}
+.tcard-name { text-shadow: 0 1px 18px rgba(0,0,0,0.35); }
+.tcard-role { color: color-mix(in srgb, var(--accent) 72%, #f4f1ea); }
+.tcard-hit:hover .tcard-role { color: var(--accent); }
+.tcard-sum { font-size: 14.5px; color: color-mix(in srgb, var(--ink) 86%, transparent); }
+.tcard-tags span { color: color-mix(in srgb, var(--ink) 66%, transparent); border-color: color-mix(in srgb, var(--ink) 18%, transparent); }
+.tcard-mono::after { border-color: color-mix(in srgb, var(--ink) 14%, transparent); }

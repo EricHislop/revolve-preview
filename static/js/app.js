@@ -63,6 +63,22 @@
       var card = track.querySelector(".tcard");
       return card ? card.getBoundingClientRect().width + 16 : 320;
     }
+    var indexEl = section.querySelector("[data-car-index]");
+    var progEl = section.querySelector("[data-car-progress]");
+    var total = track.querySelectorAll(".tcard").length;
+    function updateBar() {
+      var card = track.querySelector(".tcard");
+      var cw = card ? card.getBoundingClientRect().width + 16 : 1;
+      var i = Math.round(track.scrollLeft / cw) + 1;
+      if (indexEl) indexEl.textContent = String(Math.max(1, Math.min(i, total))).padStart(2, "0");
+      if (progEl) {
+        var max = track.scrollWidth - track.clientWidth;
+        progEl.style.width = (max > 2 ? Math.min(100, (track.scrollLeft / max) * 100) : 100) + "%";
+      }
+    }
+    track.addEventListener("scroll", updateBar, { passive: true });
+    window.addEventListener("resize", updateBar);
+    updateBar();
     if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
     if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
 

@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if .IsHome }}{{ .Title }} · Personal training in Tawa{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
-  <meta name="description" content="{{ .Params.description | default "A small, private personal training studio in Tawa, Wellington. One on one or small group, no contracts, from $20 a session." }}">
+  <meta name="description" content="{{ .Params.description | default "A small, private personal training studio in Tawa, Wellington. One on one or small group, no contracts, from $30 a session." }}">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#0a0a0b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="{{ "favicon.png" | relURL }}">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <script src="{{ "js/htmx.min.js" | relURL }}" defer></script>
   <script src="{{ "js/app.js" | relURL }}" defer></script>
