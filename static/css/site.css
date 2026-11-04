@@ -1100,3 +1100,39 @@ body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
 [data-theme="bone"] .foot-logo,
 [data-theme="chalk"] .brand-logo,
 [data-theme="chalk"] .foot-logo { filter: invert(1) brightness(0.2); }
+
+/* ---------- pass ten: every card carries their photography ---------- */
+.slide-media--typo .slide-bg {
+  filter: grayscale(1) contrast(1.12) brightness(0.3) blur(0.4px);
+  transform: scale(1.04);
+}
+.slide-media--typo .slide-media::after,
+.slide-media--typo::after {
+  background: linear-gradient(180deg, rgba(8,8,9,0.35) 0%, rgba(8,8,9,0.55) 55%, rgba(8,8,9,0.95) 100%);
+}
+.slide-surname {
+  position: absolute; inset: 0; z-index: 1;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(58px, 7.4vw, 138px);
+  letter-spacing: -0.055em; text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.6px color-mix(in srgb, var(--accent) 92%, transparent);
+  text-align: center; line-height: 0.9;
+  padding: 0 14px;
+}
+.slide.is-active .slide-surname { -webkit-text-stroke-color: var(--accent); }
+@media (max-width: 860px) {
+  .slide-surname { font-size: clamp(44px, 13vw, 74px); }
+}
+
+/* ---------- pass eleven: Don's list ---------- */
+.slide-media--typo .slide-bg { filter: grayscale(1) contrast(1.14) brightness(0.24); }
+.slide-surname { -webkit-text-stroke-width: 2.2px; }
+.slide-media--typo::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(60% 50% at 50% 46%, rgba(8,8,9,0.55), rgba(8,8,9,0) 72%);
+}
+.bk-note { font-size: 12.5px; color: color-mix(in srgb, var(--ink) 72%, transparent); line-height: 1.45; }
+.bk-ref { color: var(--ink); }
+.book-offer { margin: 22px 0 0; font-size: 13.5px; line-height: 1.45; color: color-mix(in srgb, var(--ink) 78%, transparent); }

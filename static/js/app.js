@@ -173,7 +173,7 @@
 
   var state = {
     step: 1, sessionId: null, trainer: null, day: null, time: null,
-    name: "", email: "", phone: "", card: "", exp: "", cvc: ""
+    name: "", email: "", phone: ""
   };
 
   var STEPS = ["Session", "Trainer", "Time", "Details"];
@@ -227,7 +227,7 @@
     nextBtn.hidden = state.step > 3;
     nextBtn.disabled = !canAdvance();
     nextBtn.style.opacity = canAdvance() ? "1" : "0.45";
-    hint.textContent = state.step < 5 ? "Step " + Math.min(state.step, 4) + " of 4 · " + STEPS[Math.min(state.step, 4) - 1] : "";
+    hint.textContent = state.step < 5 ? "Step " + Math.min(state.step, 4) + " of 4 · " + STEPS[Math.min(state.step, 4) - 1] : "First session is a chat, not a workout.";
 
     if (state.step === 1) {
       body.innerHTML =
@@ -292,16 +292,8 @@
           '<label class="bk-field"><span>Email</span><input name="email" type="email" autocomplete="email" value="' + escapeAttr(state.email) + '" placeholder="you@email.co.nz"></label>' +
           '<label class="bk-field"><span>Mobile</span><input name="phone" inputmode="tel" autocomplete="tel" value="' + escapeAttr(state.phone) + '" placeholder="021 000 0000"></label>' +
         '</div>' +
-        (price
-          ? '<label class="bk-field"><span>Card number</span><input name="card" inputmode="numeric" value="' + escapeAttr(state.card) + '" placeholder="4242 4242 4242 4242"></label>' +
-            '<div class="bk-row">' +
-              '<label class="bk-field"><span>Expiry</span><input name="exp" inputmode="numeric" value="' + escapeAttr(state.exp) + '" placeholder="MM / YY"></label>' +
-              '<label class="bk-field"><span>CVC</span><input name="cvc" inputmode="numeric" value="' + escapeAttr(state.cvc) + '" placeholder="123"></label>' +
-            '</div>' +
-            '<p class="bk-note">Demo only. No card is charged and nothing is stored.</p>'
-          : '') +
-        '<button type="button" class="btn btn--accent btn--wide" id="bk-confirm">' +
-          (price ? "Book and pay $" + price : "Confirm booking") + '</button>';
+        '<p class="bk-note">' + (price ? "Session $" + price + ", paid at the studio. No card needed now." : "Paid at the studio.") + '</p>' +
+        '<button type="button" class="btn btn--accent btn--wide" id="bk-confirm">Request this time</button>';
     }
 
     if (state.step === 5) {
@@ -310,11 +302,11 @@
       body.innerHTML =
         '<div class="bk-done">' +
           '<div class="bk-done-mark" aria-hidden="true">✓</div>' +
-          '<h2 class="bk-h">You are booked.</h2>' +
+          '<h2 class="bk-h">That time is held for you.</h2>' +
           '<p>' + (ss ? ss.name : "Session") + ' with ' + trainerName(state.trainer) + ', ' +
             state.day.toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long" }) + ' at ' + state.time + '.</p>' +
-          '<p class="bk-note">Reference <span class="bk-ref">' + ref + '</span></p>' +
-          '<p class="bk-note">In the real build this lands in the studio diary and sends a text and an email confirmation.</p>' +
+          '<p class="bk-note">We will text ' + (state.phone || state.email) + ' today to confirm. Reference <span class="bk-ref">' + ref + '</span></p>' +
+          '<p class="bk-note">Need to change it? Call 04 232 3497.</p>' +
         '</div>';
     }
   }
@@ -341,8 +333,6 @@
       state.phone = phone ? phone.value.trim() : "";
       if (!state.name) { if (name) name.focus(); return; }
       if (!state.email) { if (email) email.focus(); return; }
-      var card = body.querySelector('input[name="card"]');
-      if (card && card.value.replace(/\s/g, "").length < 12) { card.focus(); return; }
       state.step = 5; render();
     }
   });
@@ -375,16 +365,4 @@
     openBooking(b.getAttribute("data-trainer"));
   });
 
-  dialog.addEventListener("input", function (e) {
-    var i = e.target;
-    if (i.name === "card") {
-      var v = i.value.replace(/\D/g, "").slice(0, 16);
-      i.value = v.replace(/(.{4})/g, "$1 ").trim();
-    }
-    if (i.name === "exp") {
-      var x = i.value.replace(/\D/g, "").slice(0, 4);
-      i.value = x.length > 2 ? x.slice(0, 2) + " / " + x.slice(2) : x;
-    }
-    if (i.name === "cvc") i.value = i.value.replace(/\D/g, "").slice(0, 4);
-  });
 })();

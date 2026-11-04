@@ -43,14 +43,15 @@
 
     <div class="deck" data-deck>
       <div class="deck-track" data-deck-track tabindex="0" aria-label="Trainers. Swipe, or use the arrows and dots.">
-        {{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
+        {{ range $i, $p := sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
         <article class="slide" data-slide aria-roledescription="slide" aria-label="{{ .Title }}">
-          {{ $p := . }}
-          <div class="slide-media">
-            {{ with .Params.photo }}
+          <div class="slide-media{{ if not $p.Params.photo }} slide-media--typo{{ end }}">
+            {{ with $p.Params.photo }}
             <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $p.Title }}" loading="lazy" decoding="async">
             {{ else }}
-            <span class="slide-mono" aria-hidden="true">{{ $p.Params.initials }}</span>
+            {{ $bg := index (slice "gym-photo-1.jpg" "gym-photo-2.jpg" "gym-photo-3.jpg") (mod $i 3) }}
+            <img class="slide-bg" src="{{ printf "img/%s" $bg | relURL }}" alt="" loading="lazy" decoding="async">
+            <span class="slide-surname" aria-hidden="true">{{ index (split $p.Title " ") 1 }}</span>
             {{ end }}
             <span class="slide-n">{{ printf "%02d" .Params.order }}</span>
             <span class="slide-nameplate">
@@ -158,7 +159,8 @@
               <p class="book-step-b">The next two weeks, half hour slots, confirmed on the spot.</p></div>
           </div>
         </div>
-        <button class="btn btn--accent btn--wide" type="button" data-book style="margin-top:24px">Open the calendar</button>
+        <p class="book-offer">First session is a chat, not a workout. No pressure, no contract.</p>
+        <button class="btn btn--accent btn--wide" type="button" data-book style="margin-top:18px">Find a time</button>
         <noscript><p class="book-noscript">The booking form needs JavaScript. Call {{ .Site.Params.phone }} or email <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a>.</p></noscript>
       </div>
     </div>
