@@ -730,3 +730,7 @@ body.menu-open .nav-book { visibility: hidden; }
 .tcard-sum { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .bk-day-d { font-size: 11.5px; color: color-mix(in srgb, var(--ink) 62%, transparent); }
 .bk-opt { padding: 12px 14px; }
+
+/* the menu sits under the bar, so the close button stays reachable */
+body.menu-open .nav { z-index: 80; background: var(--bg); border-bottom-color: var(--line); backdrop-filter: none; }
+body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
