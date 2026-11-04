@@ -1,0 +1,26 @@
+<header class="nav" id="nav">
+  <a class="brand" href="{{ "/" | relURL }}" aria-label="Revolve Fitness, home">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.4"/><path d="M20 6 L24 18 L34 20 L24 22 L20 34 L16 22 L6 20 L16 18 Z" fill="currentColor"/></svg>
+    </span>
+    <span class="brand-word">Revolve<span class="brand-sub">Fitness · Tawa</span></span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#trainers">Trainers</a>
+    <a href="#sessions">Sessions</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#find">Find us</a>
+  </nav>
+  <a class="btn btn--accent nav-book" href="#book" data-book>Book a session</a>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobmenu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="mobmenu" id="mobmenu" aria-hidden="true">
+  <a href="#trainers">Trainers</a>
+  <a href="#sessions">Sessions</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#find">Find us</a>
+  <button class="btn btn--accent" type="button" data-book>Book a session</button>
+</div>

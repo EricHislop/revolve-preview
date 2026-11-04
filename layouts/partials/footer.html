@@ -1,0 +1,28 @@
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="brand-word">Revolve</span>
+      <p class="foot-line">{{ .Site.Params.address1 }}<br>{{ .Site.Params.address2 }}<br><a href="tel:+6442323497">{{ .Site.Params.phone }}</a></p>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#trainers">Trainers</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#book">Book</a>
+      <a href="#reviews">Reviews</a>
+      <a href="{{ .Site.Params.facebook }}" target="_blank" rel="noopener">Facebook</a>
+      <a href="mailto:{{ .Site.Params.email }}">Email</a>
+    </nav>
+    <div class="foot-theme">
+      <span class="foot-theme-label">Look</span>
+      <div class="theme-dots" role="group" aria-label="Change the look of this site">
+        <button type="button" data-theme-set="noir" aria-label="Dark" class="td td--noir"></button>
+        <button type="button" data-theme-set="bone" aria-label="Light" class="td td--bone"></button>
+        <button type="button" data-theme-set="volt" aria-label="High contrast" class="td td--volt"></button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <span>Revolve Fitness, Tawa. Personal training, no contracts.</span>
+    <span class="foot-credit">Site by <a href="https://thriftykiwi.com" target="_blank" rel="noopener">Thrifty Kiwi</a></span>
+  </div>
+</footer>

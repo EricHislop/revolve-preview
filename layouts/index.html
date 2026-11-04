@@ -1,0 +1,206 @@
+{{ define "main" }}
+<main id="top">
+
+  <section class="hero">
+    <picture class="hero-media">
+      <source media="(min-width: 861px)" srcset="{{ "img/gym-photo-3.jpg" | relURL }}">
+      <img src="{{ "img/gym-photo-1.jpg" | relURL }}" alt="Inside the Revolve training studio in Tawa" fetchpriority="high">
+    </picture>
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span>{{ .Params.hero.kicker }}</p>
+      <h1 class="hero-title">{{ .Params.hero.title_html | safeHTML }}</h1>
+      <p class="hero-sub">{{ .Params.hero.sub }}</p>
+      <div class="hero-cta">
+        <button class="btn btn--accent" type="button" data-book>Book a session</button>
+        <a class="btn btn--ghost" href="#trainers">Meet the trainers</a>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <span>{{ .Site.Params.address1 }}, {{ .Site.Params.address2 }}</span>
+      <span class="hero-scroll" aria-hidden="true">Scroll</span>
+      <span>{{ .Site.Params.phone }}</span>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {{ range seq 2 }}
+      <span>No contracts</span><span>One on one</span><span>Small group</span><span>Over 60s classes</span><span>Massage</span><span>Nine trainers</span>
+      {{ end }}
+    </div>
+  </div>
+
+  <section class="stats">
+    <div class="wrap">
+      {{ range .Params.stats }}
+      <div class="stat">
+        <span class="stat-n">{{ .n }}</span>
+        <span class="stat-l">{{ .label }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="section trainers" id="trainers">
+    <div class="wrap section-head">
+      <div>
+        <p class="kicker"><span class="dot" aria-hidden="true"></span>The team</p>
+        <h2 class="h2">Nine people who<br>will know your name.</h2>
+      </div>
+      <div class="carousel-nav">
+        <button class="round" type="button" data-car-prev aria-label="Previous trainers">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <button class="round" type="button" data-car-next aria-label="More trainers">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="carousel" data-carousel tabindex="0" aria-label="Trainers, swipe or use the arrows">
+      {{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
+      <article class="tcard">
+        <button class="tcard-hit" type="button"
+                hx-get="{{ .RelPermalink }}" hx-target="#sheet" hx-swap="outerHTML" hx-select="#sheet"
+                hx-on::after-request="document.getElementById('sheet-wrap').classList.add('is-open'); document.getElementById('sheet-wrap').setAttribute('aria-hidden','false')"
+                aria-label="Read more about {{ .Title }}">
+          <span class="tcard-media">
+            {{ with .Params.photo }}
+            <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $.Title }}" loading="lazy" decoding="async">
+            {{ else }}
+            <span class="tcard-type" aria-hidden="true"><span>{{ .Params.initials }}</span></span>
+            {{ end }}
+          </span>
+          <span class="tcard-body">
+            <span class="tcard-num">{{ printf "%02d" .Params.order }}</span>
+            <span class="tcard-name">{{ .Title }}</span>
+            <span class="tcard-role">{{ .Params.role }}</span>
+            <span class="tcard-sum">{{ .Params.summary }}</span>
+            <span class="tcard-cta">View profile <span aria-hidden="true">→</span></span>
+          </span>
+        </button>
+      </article>
+      {{ end }}
+    </div>
+    <p class="carousel-hint wrap">Swipe through the team. Tap anyone to read their story.</p>
+  </section>
+
+  <section class="section sessions" id="sessions">
+    <div class="wrap section-head">
+      <div>
+        <p class="kicker"><span class="dot" aria-hidden="true"></span>What we do</p>
+        <h2 class="h2">Four ways<br>to train here.</h2>
+      </div>
+      <p class="section-note">Everything is pay as you go. No membership, no lock in, no joining fee.</p>
+    </div>
+    <div class="wrap cards">
+      {{ range $i, $s := .Params.services }}
+      <article class="scard">
+        <span class="scard-i">0{{ add $i 1 }}</span>
+        <h3 class="scard-t">{{ .title }}</h3>
+        <p class="scard-b">{{ .body }}</p>
+        <span class="scard-m">{{ .meta }}</span>
+      </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="legacy">
+    <div class="wrap legacy-wrap">
+      <p class="kicker kicker--dark"><span class="dot" aria-hidden="true"></span>Twenty years, one class</p>
+      <div class="legacy-grid">
+        <p class="legacy-n">20</p>
+        <div>
+          <h2 class="legacy-h">Mark has run the over 60s class since before this website existed.</h2>
+          <p class="legacy-copy">Strength, posture, heart, lungs, blood pressure, bone density and balance. Supervised, in a private room, with a trainer who knows what your knees have been through.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section book" id="book">
+    <div class="wrap book-wrap">
+      <div class="book-copy">
+        <p class="kicker"><span class="dot" aria-hidden="true"></span>Book</p>
+        <h2 class="h2">Your first session<br>starts with a chat.</h2>
+        <p class="book-intro">{{ .Params.booking.intro }}</p>
+        <p class="book-alt">Rather talk to a person? <a href="tel:+6442323497">{{ .Site.Params.phone }}</a></p>
+      </div>
+      <div class="book-panel">
+        <div class="book-steps">
+          <div class="book-step">
+            <span class="book-step-n">1</span>
+            <div><span class="book-step-t">Pick a session</span>
+              <p class="book-step-b">Half an hour, a full hour, a small group, or a massage.</p></div>
+          </div>
+          <div class="book-step">
+            <span class="book-step-n">2</span>
+            <div><span class="book-step-t">Pick your trainer</span>
+              <p class="book-step-b">Or let us match you with whoever suits your goal.</p></div>
+          </div>
+          <div class="book-step">
+            <span class="book-step-n">3</span>
+            <div><span class="book-step-t">Pick a time</span>
+              <p class="book-step-b">The next two weeks, half hour slots, confirmed on the spot.</p></div>
+          </div>
+        </div>
+        <button class="btn btn--accent btn--wide" type="button" data-book style="margin-top:24px">Open the calendar</button>
+        <noscript><p class="book-noscript">The booking form needs JavaScript. Call {{ .Site.Params.phone }} or email <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a>.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reviews" id="reviews">
+    <div class="wrap section-head">
+      <div>
+        <p class="kicker"><span class="dot" aria-hidden="true"></span>Word of mouth</p>
+        <h2 class="h2">What people<br>actually say.</h2>
+      </div>
+      <p class="section-note">Unedited reviews from the people who train here.</p>
+    </div>
+    <div class="wrap quotes">
+      {{ range .Params.reviews }}
+      <figure class="quote">
+        <blockquote>{{ .text }}</blockquote>
+        <figcaption>{{ .name }}</figcaption>
+      </figure>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="section find" id="find">
+    <div class="wrap find-wrap">
+      <div>
+        <p class="kicker"><span class="dot" aria-hidden="true"></span>Find us</p>
+        <h2 class="h2">The last shop<br>on the left.</h2>
+        <p class="find-note">Just before the Main Road entrance to New World, in the heart of Tawa.</p>
+        <address class="find-addr">
+          {{ .Site.Params.address1 }}<br>{{ .Site.Params.address2 }}
+        </address>
+        <ul class="find-list">
+          <li><span>Phone</span><a href="tel:+6442323497">{{ .Site.Params.phone }}</a></li>
+          <li><span>Mobile</span><a href="tel:+64274588674">{{ .Site.Params.mobile }}</a></li>
+          <li><span>Email</span><a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
+          <li><span>Facebook</span><a href="{{ .Site.Params.facebook }}" target="_blank" rel="noopener">FitnessbyRevolve</a></li>
+        </ul>
+      </div>
+      <div class="find-panel">
+        <img src="{{ "img/gym-photo-2.jpg" | relURL }}" alt="The training floor at Revolve" loading="lazy" decoding="async">
+        <div class="find-badge">
+          <span class="find-badge-t">Tawa</span>
+          <span class="find-badge-s">Wellington 5028</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{{ $ts := slice }}
+{{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
+  {{ $ts = $ts | append (dict "slug" .File.BaseFileName "name" .Title "role" .Params.role) }}
+{{ end }}
+<script type="application/json" id="site-data">{{ dict "sessions" .Params.booking.sessions "trainers" $ts | jsonify | safeJS }}</script>
+</main>
+{{ end }}

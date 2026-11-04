@@ -1,0 +1,8 @@
+{{ define "main" }}
+<main class="trainer-page">
+  <div class="wrap trainer-page-inner">
+    <a class="back" href="{{ "/" | relURL }}#trainers">Back to all trainers</a>
+    {{ partial "trainer-sheet.html" . }}
+  </div>
+</main>
+{{ end }}

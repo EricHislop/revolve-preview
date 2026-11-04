@@ -1,0 +1,14 @@
+baseURL = "/"
+languageCode = "en-nz"
+title = "Revolve Fitness"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+summaryLength = 20
+
+[params]
+  tagline = "Personal, not packed."
+  phone = "04 232 3497"
+  mobile = "027 458 8674"
+  email = "hello@revolvestudio.co.nz"
+  address1 = "Shop 6 & 7, 210 Main Road"
+  address2 = "Tawa 5028, Wellington"
+  facebook = "https://www.facebook.com/FitnessbyRevolve"

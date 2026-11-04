@@ -1,0 +1,54 @@
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-name">
+  <button class="sheet-x" type="button" data-close-sheet aria-label="Close profile">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+  <div class="sheet-media">
+    {{ with .Params.photo }}
+    <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $.Title }}" loading="lazy" decoding="async">
+    {{ else }}
+    <span class="sheet-type" aria-hidden="true">{{ .Params.initials }}</span>
+    {{ end }}
+  </div>
+  <div class="sheet-body">
+    <p class="sheet-role">{{ .Params.role }}</p>
+    <h2 id="sheet-name">{{ .Title }}</h2>
+    <div class="sheet-text">{{ .Content }}</div>
+    <div class="sheet-cols">
+      <div>
+        <h3 class="sheet-h">Works on</h3>
+        <ul class="sheet-tags">
+          {{ range .Params.specialities }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </div>
+      <div>
+        <h3 class="sheet-h">Qualifications</h3>
+        <ul class="sheet-quals">
+          {{ range .Params.qualifications }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </div>
+    </div>
+    {{ with .Params.quote }}
+    <figure class="sheet-quote">
+      <blockquote>{{ . }}</blockquote>
+      <figcaption>{{ $.Params.quote_by }}</figcaption>
+    </figure>
+    {{ end }}
+    <div class="sheet-actions">
+      <button class="btn btn--accent" type="button" data-book data-trainer="{{ .File.BaseFileName }}">Book with {{ index (split .Title " ") 0 }}</button>
+      <div class="sheet-social">
+        <a class="icon-btn" href="{{ site.Params.facebook }}" target="_blank" rel="noopener" aria-label="Revolve on Facebook">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z" fill="currentColor"/></svg>
+        </a>
+        {{ with .Params.instagram }}
+        <a class="icon-btn" href="{{ . }}" target="_blank" rel="noopener" aria-label="{{ $.Title }} on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
+        </a>
+        {{ else }}
+        <span class="icon-btn icon-btn--muted" title="Instagram handle to be added" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
+        </span>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+---
+title: "Revolve Fitness"
+description: "A small, private personal training studio in Tawa, Wellington. One on one or small group, no contracts, from $20 a session."
+hero:
+  kicker: "Tawa, Wellington"
+  title_html: "Personal,<br><em>not packed</em>."
+  sub: "A private training studio in Tawa. One on one or small group, no contracts, from $20 a session."
+stats:
+  - n: "9"
+    label: "trainers, all under one roof"
+  - n: "0"
+    label: "contracts, ever"
+  - n: "$20"
+    label: "for a half hour session"
+  - n: "20"
+    label: "years of the over 60s class"
+services:
+  - title: "One to one"
+    body: "Your own trainer, your own programme, half an hour or a full one. The reason people stay for years."
+    meta: "From $20"
+  - title: "Small group"
+    body: "Two or three of you, one trainer, the same attention at a friendlier price."
+    meta: "From $20"
+  - title: "Over 60s class"
+    body: "Supervised classes for strength, balance, bone density and confidence. Running for more than 20 years."
+    meta: "Mark leads it"
+  - title: "Massage"
+    body: "Deep tissue and sports massage for recovery, booked with one of our therapists."
+    meta: "By appointment"
+reviews:
+  - text: "The team at Revolve Fitness are absolutely amazing. Super friendly and motivating, I highly recommend."
+    name: "Nichaela Taylor"
+  - text: "Excellent personal trainers in a friendly environment. A variety of equipment matched with professional fitness instructors."
+    name: "Margaret Nicholls"
+  - text: "Personal, well supervised, friendly. Appropriate, clean, good equipment."
+    name: "David Puddephatt"
+  - text: "Great place. Workouts specific to ongoing issues."
+    name: "Anne Marsden"
+  - text: "Awesome, consistent training for the three plus years I have been with Revolve. Pushing me when I need to be challenged, and listening."
+    name: "Nikki Burnet"
+  - text: "Great gym to go to if you have goals to achieve. The team will create specific programs for your success."
+    name: "Mike Hanning"
+  - text: "I love that you get one on one time with your trainer. Four years now and I still look forward to it."
+    name: "Chrissy Williams"
+  - text: "Super affordable PT sessions, and the trainers are lovely to deal with."
+    name: "Hannah Johnston"
+booking:
+  intro: "Pick a session, a trainer and a time. First session is a chat about what you want, not a sales pitch."
+  sessions:
+    - id: "pt30"
+      name: "Personal training"
+      length: "30 minutes"
+      price: 20
+    - id: "pt60"
+      name: "Personal training"
+      length: "60 minutes"
+      price: 0
+    - id: "group"
+      name: "Small group"
+      length: "30 minutes"
+      price: 20
+    - id: "massage"
+      name: "Massage"
+      length: "30 minutes"
+      price: 0
+---
