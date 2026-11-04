@@ -877,3 +877,220 @@ body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
 .tcard-sum { font-size: 14.5px; color: color-mix(in srgb, var(--ink) 86%, transparent); }
 .tcard-tags span { color: color-mix(in srgb, var(--ink) 66%, transparent); border-color: color-mix(in srgb, var(--ink) 18%, transparent); }
 .tcard-mono::after { border-color: color-mix(in srgb, var(--ink) 14%, transparent); }
+
+/* ================= pass eight: the deck, four looks, mobile first ================= */
+
+[data-theme="chalk"] {
+  --bg: #ececea;
+  --bg-2: #f4f4f2;
+  --bg-3: #e2e2df;
+  --ink: #111110;
+  --muted: #5a5a56;
+  --line: rgba(17, 17, 16, 0.14);
+  --line-hard: rgba(17, 17, 16, 0.3);
+  --accent: #1f6f4a;
+  --accent-ink: #f6fbf8;
+}
+
+/* the look menu */
+.look { position: relative; flex: none; }
+.look-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  height: 40px; padding: 0 13px 0 11px;
+  border: 1px solid var(--line-hard); border-radius: 999px;
+  background: transparent; cursor: pointer; color: var(--ink);
+  transition: border-color 0.2s, background 0.2s;
+}
+.look-btn:hover { border-color: var(--ink); }
+.look-swatches { display: flex; gap: 3px; }
+.look-swatches i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+.s-noir { background: #0a0a0b; box-shadow: inset 0 0 0 1px #d8ff3e; }
+.s-bone { background: #efe9dd; box-shadow: inset 0 0 0 1px #d8452b; }
+.s-volt { background: #0a0a0b; box-shadow: inset 0 0 0 1px #ff4d2e; }
+.s-chalk { background: #ececea; box-shadow: inset 0 0 0 1px #1f6f4a; }
+.look-word { font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.look-menu {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 65;
+  width: 254px; padding: 10px;
+  background: var(--bg); border: 1px solid var(--line-hard); border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  display: none;
+}
+.look-menu.is-open { display: block; }
+.look-head { margin: 4px 8px 8px; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.look-menu button {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 10px; border: 0; border-radius: 10px; background: transparent;
+  text-align: left; cursor: pointer;
+}
+.look-menu button:hover { background: var(--bg-2); }
+.look-menu button.is-on { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.look-menu b { display: block; font-weight: 600; font-size: 14px; }
+.look-menu em { display: block; font-style: normal; font-size: 12px; color: var(--muted); }
+.sw { width: 26px; height: 26px; border-radius: 8px; flex: none; }
+.sw-noir { background: #0a0a0b; box-shadow: inset 0 0 0 1px #d8ff3e, inset 0 0 0 8px #0a0a0b; }
+.sw-bone { background: #efe9dd; box-shadow: inset 0 0 0 1px #d8452b, inset 0 0 0 8px #efe9dd; }
+.sw-volt { background: #0a0a0b; box-shadow: inset 0 0 0 1px #ff4d2e, inset 0 0 0 8px #0a0a0b; }
+.sw-chalk { background: #ececea; box-shadow: inset 0 0 0 1px #1f6f4a, inset 0 0 0 8px #ececea; }
+
+.mob-look { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.mob-look p { margin: 0 0 12px; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.mob-swatches { display: flex; gap: 10px; }
+.mob-swatches .sw { width: 40px; height: 40px; border-radius: 12px; border: 0; cursor: pointer; }
+.mob-swatches .sw.is-on { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ---------------- the deck ---------------- */
+
+.roster { padding: clamp(56px, 8vw, 104px) 0 clamp(52px, 7vw, 90px); background: var(--bg); border-bottom: 1px solid var(--line); }
+.roster-head { margin-bottom: clamp(24px, 3vw, 40px); }
+
+.deck { max-width: 1180px; margin: 0 auto; padding: 0 var(--gut); }
+.deck-track {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 22px;
+  outline: none;
+}
+.deck-track::-webkit-scrollbar { display: none; }
+.deck-track:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  display: grid;
+  grid-template-columns: 1.06fr 0.94fr;
+  min-height: min(74vh, 640px);
+  max-height: min(74vh, 640px);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.slide-media { position: relative; overflow: hidden; background: var(--bg-3); }
+.slide-media img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%;
+  filter: grayscale(1) contrast(1.08) brightness(0.86);
+  transform: scale(1.06);
+  transition: transform 1.6s var(--ease), filter 0.7s var(--ease);
+}
+.slide.is-active .slide-media img { transform: scale(1); filter: grayscale(1) contrast(1.1) brightness(0.9); }
+.slide-media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,8,9,0.06) 40%, rgba(8,8,9,0.42) 72%, rgba(8,8,9,0.9) 100%);
+  pointer-events: none;
+}
+.slide-mono {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(120px, 13vw, 220px); letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.6px color-mix(in srgb, var(--accent) 90%, transparent);
+  background:
+    radial-gradient(90% 70% at 26% 8%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
+    linear-gradient(165deg, var(--bg-3), var(--bg-2) 70%);
+}
+.slide-n {
+  position: absolute; top: 20px; left: 22px; z-index: 2;
+  padding: 6px 11px; border-radius: 999px;
+  background: color-mix(in srgb, #0a0a0b 55%, transparent);
+  backdrop-filter: blur(6px);
+  color: #f4f1ea; font-size: 11px; letter-spacing: 0.18em; font-variant-numeric: tabular-nums;
+}
+.slide-nameplate { position: absolute; left: 26px; right: 26px; bottom: 24px; z-index: 2; }
+.slide-name {
+  display: block;
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(32px, 3.8vw, 56px); line-height: 0.94; letter-spacing: -0.035em;
+  text-transform: uppercase; color: #f4f1ea;
+}
+.slide-role { display: block; margin-top: 9px; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+
+.slide-body {
+  padding: clamp(22px, 2.6vw, 38px);
+  display: flex; flex-direction: column; gap: 14px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.slide-kicker { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(17px, 1.6vw, 22px); line-height: 1.24; letter-spacing: -0.01em; }
+.slide-text p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.5; color: color-mix(in srgb, var(--ink) 80%, transparent); }
+.slide-text p:last-child { margin-bottom: 0; }
+.slide-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+.slide-tags li { font-size: 11.5px; padding: 5px 10px; border: 1px solid var(--line-hard); border-radius: 999px; color: var(--muted); }
+.slide-quals { margin: 0; font-size: 12.5px; color: var(--muted); }
+.slide-quals dt { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; }
+.slide-quals dd { margin: 0 0 3px; }
+.slide-quote { margin: 0; padding: 14px 16px; border-left: 2px solid var(--accent); background: var(--bg); font-size: 13.5px; }
+.slide-quote blockquote { margin: 0; }
+.slide-quote figcaption { margin-top: 8px; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.slide-actions { margin-top: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 6px; }
+.slide-link { font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--muted); }
+.slide-link:hover { color: var(--ink); }
+
+.deck-ui { display: flex; align-items: center; gap: 16px; margin-top: 18px; }
+.deck-dots { display: flex; gap: 8px; flex: 1; justify-content: center; }
+.deck-dots button {
+  width: 8px; height: 8px; padding: 0; border-radius: 50%; border: 0; cursor: pointer;
+  background: color-mix(in srgb, var(--ink) 28%, transparent);
+  transition: width 0.25s var(--ease), background 0.25s;
+}
+.deck-dots button.is-on { width: 26px; border-radius: 999px; background: var(--accent); }
+.deck-count { font-family: var(--display); font-weight: 700; font-size: 12.5px; letter-spacing: 0.12em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.deck-count b { color: var(--ink); font-weight: 800; }
+
+/* ---------------- deck on a phone, which is where it will be seen ---------------- */
+
+@media (max-width: 860px) {
+  .deck { padding: 0 14px; }
+  .slide {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: 0;
+    max-height: none;
+    border-radius: 18px;
+  }
+  .slide-media { aspect-ratio: 1 / 1; }
+  .slide-media img { object-position: 50% 18%; }
+  .slide-name { font-size: clamp(28px, 8.4vw, 40px); }
+  .slide-nameplate { left: 18px; right: 18px; bottom: 16px; }
+  .slide-n { top: 14px; left: 14px; }
+  .slide-body { padding: 20px 18px 22px; gap: 12px; overflow: visible; }
+  .slide-quote { display: none; }
+  .slide-text p { font-size: 14px; }
+  .slide-kicker { font-size: 17px; }
+  .slide-actions { gap: 10px; }
+  .slide-actions .btn { flex: 1 1 auto; }
+  .deck-ui { margin-top: 14px; gap: 10px; }
+  .deck-dots { gap: 6px; }
+  .deck-dots button { width: 7px; height: 7px; }
+  .deck-dots button.is-on { width: 20px; }
+  .roster-head .h2 { font-size: clamp(30px, 9vw, 44px); }
+}
+
+@media (max-width: 620px) {
+  .look-word { display: none; }
+  .look-btn { padding: 0 10px; gap: 0; }
+  .nav-book { padding: 0 13px; font-size: 13px; min-height: 40px; }
+  .brand-logo { height: 26px; }
+  .nav { gap: 8px; padding: 12px 14px; }
+}
+
+/* ---------- pass nine: phone order and tap targets ---------- */
+@media (max-width: 860px) {
+  .slide-body .slide-kicker { order: 1; }
+  .slide-body .slide-tags { order: 2; }
+  .slide-body .slide-actions { order: 3; margin-top: 6px; padding-top: 0; }
+  .slide-body .slide-text { order: 4; }
+  .slide-body .slide-quals { order: 5; }
+  .slide-body .slide-quote { order: 6; }
+  .deck-dots button { position: relative; }
+  .deck-dots button::after { content: ""; position: absolute; inset: -12px -6px; }
+  .deck-dots button.is-on::after { inset: -12px -4px; }
+}

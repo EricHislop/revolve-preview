@@ -8,6 +8,29 @@
     <a href="#reviews">Reviews</a>
     <a href="#find">Find us</a>
   </nav>
+
+  <div class="look" data-look>
+    <button class="look-btn" type="button" id="look-btn" aria-expanded="false" aria-haspopup="true" aria-controls="look-menu">
+      <span class="look-swatches" aria-hidden="true"><i class="s-noir"></i><i class="s-bone"></i><i class="s-volt"></i><i class="s-chalk"></i></span>
+      <span class="look-word">Look</span>
+    </button>
+    <div class="look-menu" id="look-menu" role="menu" aria-label="Choose a look">
+      <p class="look-head">Choose a look</p>
+      <button type="button" role="menuitemradio" data-theme-set="noir" aria-checked="true">
+        <span class="sw sw-noir" aria-hidden="true"></span><span><b>Noir</b><em>black, lime</em></span>
+      </button>
+      <button type="button" role="menuitemradio" data-theme-set="bone" aria-checked="false">
+        <span class="sw sw-bone" aria-hidden="true"></span><span><b>Bone</b><em>warm paper, brick</em></span>
+      </button>
+      <button type="button" role="menuitemradio" data-theme-set="volt" aria-checked="false">
+        <span class="sw sw-volt" aria-hidden="true"></span><span><b>Volt</b><em>black, hot orange</em></span>
+      </button>
+      <button type="button" role="menuitemradio" data-theme-set="chalk" aria-checked="false">
+        <span class="sw sw-chalk" aria-hidden="true"></span><span><b>Chalk</b><em>cool light, deep green</em></span>
+      </button>
+    </div>
+  </div>
+
   <a class="btn btn--accent nav-book" href="#book" data-book>Book a session</a>
   <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobmenu">
     <span></span><span></span>
@@ -19,5 +42,14 @@
   <a href="#sessions">Sessions</a>
   <a href="#reviews">Reviews</a>
   <a href="#find">Find us</a>
+  <div class="mob-look">
+    <p>Look</p>
+    <div class="mob-swatches">
+      <button type="button" data-theme-set="noir" aria-label="Noir" class="sw sw-noir"></button>
+      <button type="button" data-theme-set="bone" aria-label="Bone" class="sw sw-bone"></button>
+      <button type="button" data-theme-set="volt" aria-label="Volt" class="sw sw-volt"></button>
+      <button type="button" data-theme-set="chalk" aria-label="Chalk" class="sw sw-chalk"></button>
+    </div>
+  </div>
   <button class="btn btn--accent" type="button" data-book>Book a session</button>
 </div>

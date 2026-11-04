@@ -24,14 +24,6 @@
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      {{ range seq 2 }}
-      <span>No contracts</span><span>One on one</span><span>Small group</span><span>Over 60s classes</span><span>Massage</span><span>Nine trainers</span>
-      {{ end }}
-    </div>
-  </div>
-
   <section class="stats">
     <div class="wrap">
       {{ range .Params.stats }}
@@ -43,57 +35,67 @@
     </div>
   </section>
 
-  <section class="section trainers" id="trainers">
-    <div class="wrap section-head">
-      <div>
-        <p class="kicker"><span class="dot" aria-hidden="true"></span>The team</p>
-        <h2 class="h2">Nine people who<br>will know your name.</h2>
+  <section class="roster" id="trainers">
+    <div class="wrap roster-head">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span>The team</p>
+      <h2 class="h2">Nine people who<br>will know your name.</h2>
+    </div>
+
+    <div class="deck" data-deck>
+      <div class="deck-track" data-deck-track tabindex="0" aria-label="Trainers. Swipe, or use the arrows and dots.">
+        {{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
+        <article class="slide" data-slide aria-roledescription="slide" aria-label="{{ .Title }}">
+          {{ $p := . }}
+          <div class="slide-media">
+            {{ with .Params.photo }}
+            <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $p.Title }}" loading="lazy" decoding="async">
+            {{ else }}
+            <span class="slide-mono" aria-hidden="true">{{ $p.Params.initials }}</span>
+            {{ end }}
+            <span class="slide-n">{{ printf "%02d" .Params.order }}</span>
+            <span class="slide-nameplate">
+              <span class="slide-name">{{ .Title }}</span>
+              <span class="slide-role">{{ .Params.role }}</span>
+            </span>
+          </div>
+          <div class="slide-body">
+            <p class="slide-kicker">{{ .Params.summary }}</p>
+            <div class="slide-text">{{ .Content }}</div>
+            <ul class="slide-tags">{{ range .Params.specialities }}<li>{{ . }}</li>{{ end }}</ul>
+            <dl class="slide-quals">
+              <dt>Qualifications</dt>
+              {{ range .Params.qualifications }}<dd>{{ . }}</dd>{{ end }}
+            </dl>
+            {{ with .Params.quote }}
+            <figure class="slide-quote">
+              <blockquote>{{ . }}</blockquote>
+              <figcaption>{{ $.Params.quote_by }}</figcaption>
+            </figure>
+            {{ end }}
+            <div class="slide-actions">
+              <button class="btn btn--accent" type="button" data-book data-trainer="{{ .File.BaseFileName }}">Book with {{ index (split .Title " ") 0 }}</button>
+              {{ with .Params.instagram }}
+              <a class="icon-btn" href="{{ . }}" target="_blank" rel="noopener" aria-label="{{ $.Title }} on Instagram">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
+              </a>
+              {{ end }}
+              <a class="slide-link" href="{{ .RelPermalink }}">Full profile</a>
+            </div>
+          </div>
+        </article>
+        {{ end }}
       </div>
-      <div class="carousel-nav">
-        <button class="round" type="button" data-car-prev aria-label="Previous trainers">
+
+      <div class="deck-ui wrap">
+        <button class="round" type="button" data-deck-prev aria-label="Previous trainer">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.6"/></svg>
         </button>
-        <button class="round" type="button" data-car-next aria-label="More trainers">
+        <div class="deck-dots" data-deck-dots role="tablist" aria-label="Choose a trainer"></div>
+        <span class="deck-count"><b data-deck-index>01</b> / {{ printf "%02d" (len (where .Site.RegularPages "Section" "trainers")) }}</span>
+        <button class="round" type="button" data-deck-next aria-label="Next trainer">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6"/></svg>
         </button>
       </div>
-    </div>
-
-    <div class="carousel" data-carousel tabindex="0" aria-label="Trainers, swipe or use the arrows">
-      {{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
-      <article class="tcard">
-        <button class="tcard-hit" type="button"
-                hx-get="{{ .RelPermalink }}" hx-target="#sheet" hx-swap="outerHTML" hx-select="#sheet"
-                hx-on::after-request="document.getElementById('sheet-wrap').classList.add('is-open'); document.getElementById('sheet-wrap').setAttribute('aria-hidden','false')"
-                aria-label="Read more about {{ .Title }}">
-          <span class="tcard-poster">
-            <span class="tcard-img">
-              {{ with .Params.photo }}
-              <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $.Title }}" loading="lazy" decoding="async">
-              {{ else }}
-              <span class="tcard-mono" aria-hidden="true"><span>{{ .Params.initials }}</span></span>
-              {{ end }}
-              <span class="tcard-wash" aria-hidden="true"></span>
-              <span class="tcard-n">{{ printf "%02d" .Params.order }}</span>
-              <span class="tcard-id">
-                <span class="tcard-name">{{ .Title }}</span>
-                <span class="tcard-role">{{ .Params.role }}</span>
-              </span>
-            </span>
-            <span class="tcard-meta">
-              <span class="tcard-sum">{{ .Params.summary }}</span>
-              <span class="tcard-tags">{{ range .Params.specialities }}<span>{{ . }}</span>{{ end }}</span>
-              <span class="tcard-cta">Read profile <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></span>
-            </span>
-          </span>
-        </button>
-      </article>
-      {{ end }}
-    </div>
-    <div class="car-foot wrap">
-      <span class="car-count"><b data-car-index>01</b> / {{ printf "%02d" (len (where .Site.RegularPages "Section" "trainers")) }}</span>
-      <span class="car-bar" aria-hidden="true"><i data-car-progress></i></span>
-      <span class="car-hint">Swipe or drag</span>
     </div>
   </section>
 

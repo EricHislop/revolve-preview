@@ -1,37 +1,68 @@
-/* Revolve demo. No framework, no build step. */
+/* Revolve demo. Vanilla JS, no framework. */
 (function () {
   "use strict";
 
   var raw = document.getElementById("site-data");
   var DATA = raw ? JSON.parse(raw.textContent) : { sessions: [], trainers: [] };
 
-  /* ---------- theme ---------- */
+  /* ---------------- theme ---------------- */
 
-  var THEMES = ["noir", "bone", "volt"];
+  var THEMES = ["noir", "bone", "volt", "chalk"];
+
   function setTheme(name) {
     if (THEMES.indexOf(name) === -1) name = "noir";
     document.documentElement.setAttribute("data-theme", name);
-    try { localStorage.setItem("revolve-theme", name); } catch (e) {}
+    try { localStorage.setItem("revolve-look", name); } catch (e) {}
     document.querySelectorAll("[data-theme-set]").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-set") === name));
+      b.setAttribute("aria-checked", String(b.getAttribute("data-theme-set") === name));
+      b.classList.toggle("is-on", b.getAttribute("data-theme-set") === name);
     });
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", name === "bone" ? "#efe9dd" : "#0a0a0b");
+    if (meta) meta.setAttribute("content", name === "bone" || name === "chalk" ? "#efe9dd" : "#0a0a0b");
   }
+
   var saved = null;
-  try { saved = localStorage.getItem("revolve-theme"); } catch (e) {}
+  try { saved = localStorage.getItem("revolve-look"); } catch (e) {}
   setTheme(saved || "noir");
+
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-theme-set]");
-    if (b) setTheme(b.getAttribute("data-theme-set"));
+    if (!b) return;
+    setTheme(b.getAttribute("data-theme-set"));
+    closeLook();
+    document.body.classList.remove("menu-open");
   });
 
-  /* ---------- nav ---------- */
+  /* ---------------- the look menu ---------------- */
+
+  var lookBtn = document.getElementById("look-btn");
+  var lookMenu = document.getElementById("look-menu");
+
+  function closeLook() {
+    if (!lookMenu) return;
+    lookMenu.classList.remove("is-open");
+    if (lookBtn) lookBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (lookBtn && lookMenu) {
+    lookBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = lookMenu.classList.toggle("is-open");
+      lookBtn.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest("[data-look]")) closeLook();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLook();
+    });
+  }
+
+  /* ---------------- nav + mobile menu ---------------- */
 
   var nav = document.getElementById("nav");
   function onScroll() {
-    if (!nav) return;
-    nav.classList.toggle("is-stuck", window.scrollY > 24);
+    if (nav) nav.classList.toggle("is-stuck", window.scrollY > 24);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -45,7 +76,7 @@
       mobmenu.setAttribute("aria-hidden", String(!open));
     });
     mobmenu.addEventListener("click", function (e) {
-      if (e.target.closest("a,button")) {
+      if (e.target.closest("a")) {
         document.body.classList.remove("menu-open");
         burger.setAttribute("aria-expanded", "false");
         mobmenu.setAttribute("aria-hidden", "true");
@@ -53,63 +84,72 @@
     });
   }
 
-  /* ---------- carousel ---------- */
+  /* ---------------- the trainer deck ---------------- */
 
-  document.querySelectorAll("[data-carousel]").forEach(function (track) {
-    var section = track.closest("section");
-    var prev = section.querySelector("[data-car-prev]");
-    var next = section.querySelector("[data-car-next]");
-    function step() {
-      var card = track.querySelector(".tcard");
-      return card ? card.getBoundingClientRect().width + 16 : 320;
-    }
-    var indexEl = section.querySelector("[data-car-index]");
-    var progEl = section.querySelector("[data-car-progress]");
-    var total = track.querySelectorAll(".tcard").length;
-    function updateBar() {
-      var card = track.querySelector(".tcard");
-      var cw = card ? card.getBoundingClientRect().width + 16 : 1;
-      var i = Math.round(track.scrollLeft / cw) + 1;
-      if (indexEl) indexEl.textContent = String(Math.max(1, Math.min(i, total))).padStart(2, "0");
-      if (progEl) {
-        var max = track.scrollWidth - track.clientWidth;
-        progEl.style.width = (max > 2 ? Math.min(100, (track.scrollLeft / max) * 100) : 100) + "%";
-      }
-    }
-    track.addEventListener("scroll", updateBar, { passive: true });
-    window.addEventListener("resize", updateBar);
-    updateBar();
-    if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
-    if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
+  document.querySelectorAll("[data-deck]").forEach(function (deck) {
+    var track = deck.querySelector("[data-deck-track]");
+    var slides = Array.prototype.slice.call(track.querySelectorAll(".slide"));
+    var dotsWrap = deck.querySelector("[data-deck-dots]");
+    var indexEl = deck.querySelector("[data-deck-index]");
+    var prev = deck.querySelector("[data-deck-prev]");
+    var next = deck.querySelector("[data-deck-next]");
+    var total = slides.length;
+    if (!total) return;
 
-    /* a drag should not open a profile */
-    var downX = null, downY = null, moved = false;
-    track.addEventListener("pointerdown", function (e) { downX = e.clientX; downY = e.clientY; moved = false; });
-    track.addEventListener("pointermove", function (e) {
-      if (downX === null) return;
-      if (Math.abs(e.clientX - downX) > 8 || Math.abs(e.clientY - downY) > 8) moved = true;
+    slides.forEach(function (_, i) {
+      var d = document.createElement("button");
+      d.type = "button";
+      d.setAttribute("role", "tab");
+      d.setAttribute("aria-label", "Trainer " + (i + 1) + " of " + total);
+      d.addEventListener("click", function () { go(i); });
+      dotsWrap.appendChild(d);
     });
-    track.addEventListener("click", function (e) {
-      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
-    }, true);
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function width() { return track.clientWidth; }
+    function current() { return Math.round(track.scrollLeft / Math.max(1, width())); }
+
+    function go(i) {
+      i = Math.max(0, Math.min(total - 1, i));
+      track.scrollTo({ left: i * width(), behavior: "smooth" });
+      mark(i);
+    }
+
+    function mark(i) {
+      if (indexEl) indexEl.textContent = String(i + 1).padStart(2, "0");
+      dots.forEach(function (d, k) {
+        d.classList.toggle("is-on", k === i);
+        d.setAttribute("aria-selected", String(k === i));
+      });
+      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+    }
+
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        mark(current());
+        ticking = false;
+      });
+    }, { passive: true });
+
+    if (prev) prev.addEventListener("click", function () { go(current() - 1); });
+    if (next) next.addEventListener("click", function () { go(current() + 1); });
+
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(current() + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(current() - 1); }
+    });
+
+    window.addEventListener("resize", function () {
+      track.scrollLeft = current() * width();
+    });
+
+    mark(0);
   });
 
-  /* ---------- trainer sheet ---------- */
-
-  var sheetWrap = document.getElementById("sheet-wrap");
-  function closeSheet() {
-    if (!sheetWrap) return;
-    sheetWrap.classList.remove("is-open");
-    sheetWrap.setAttribute("aria-hidden", "true");
-  }
-  document.addEventListener("click", function (e) {
-    if (e.target.closest("[data-close-sheet]")) closeSheet();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeSheet();
-  });
-
-  /* ---------- booking ---------- */
+  /* ---------------- booking ---------------- */
 
   var dialog = document.createElement("dialog");
   dialog.className = "bk";
@@ -120,8 +160,8 @@
       '<div class="bk-foot"><span class="bk-hint" id="bk-hint"></span>' +
       '<button type="button" class="btn btn--ghost bk-back" id="bk-back">Back</button>' +
       '<button type="button" class="btn btn--accent" id="bk-next">Continue</button>' +
-      '<button type="button" class="btn btn--ghost bk-x" id="bk-close" aria-label="Close booking">Close</button></div>' +
-    "</div>";
+      '<button type="button" class="icon-btn bk-x" id="bk-close" aria-label="Close booking"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6"/></svg></button>' +
+    "</div></div>";
   document.body.appendChild(dialog);
 
   var body = dialog.querySelector("#bk-body");
@@ -132,20 +172,11 @@
   dialog.querySelector("#bk-close").addEventListener("click", function () { dialog.close(); });
 
   var state = {
-    step: 1,
-    sessionId: null,
-    trainer: null,
-    day: null,
-    time: null,
-    name: "",
-    email: "",
-    phone: "",
-    card: "",
-    exp: "",
-    cvc: ""
+    step: 1, sessionId: null, trainer: null, day: null, time: null,
+    name: "", email: "", phone: "", card: "", exp: "", cvc: ""
   };
 
-  var STEPS = ["Session", "Trainer", "Time", "Details", "Done"];
+  var STEPS = ["Session", "Trainer", "Time", "Details"];
 
   function session() {
     return DATA.sessions.filter(function (s) { return s.id === state.sessionId; })[0] || null;
@@ -155,47 +186,43 @@
     var t = DATA.trainers.filter(function (x) { return x.slug === slug; })[0];
     return t ? t.name : slug;
   }
-
   function days() {
-    var out = [];
-    var d = new Date();
+    var out = [], d = new Date();
     d.setHours(0, 0, 0, 0);
-    for (var i = 0; i < 14; i++) {
-      var day = new Date(d.getTime() + i * 86400000);
-      out.push(day);
-    }
+    for (var i = 0; i < 14; i++) out.push(new Date(d.getTime() + i * 86400000));
     return out;
   }
-
   function hash(str) {
     var h = 2166136261;
-    for (var i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = Math.imul(h, 16777619);
-    }
+    for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
     return Math.abs(h);
   }
-
   function slots(day, slug) {
     var key = (slug || "any") + "|" + day.toISOString().slice(0, 10);
     var out = [];
-    var start = 6 * 60 + 30;
-    var end = 19 * 60;
-    for (var m = start; m <= end; m += 30) {
-      var label = (Math.floor(m / 60)) + ":" + String(m % 60).padStart(2, "0");
-      if (hash(key + label) % 5 > 1) out.push({ label: label, m: m });
+    for (var m = 6 * 60 + 30; m <= 19 * 60; m += 30) {
+      var label = Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0");
+      if (hash(key + label) % 5 > 1) out.push(label);
     }
     return out.slice(0, 12);
   }
-
-  function pipsHtml() {
-    return STEPS.slice(0, 4).map(function (_, i) {
-      return '<span class="bk-pip' + (i + 1 <= state.step - 1 ? " is-done" : "") + '"></span>';
-    }).join("");
+  function escapeAttr(s) {
+    return String(s || "").replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function canAdvance() {
+    if (state.step === 1) return !!state.sessionId;
+    if (state.step === 2) return true;
+    if (state.step === 3) return !!(state.day && state.time);
+    return true;
   }
 
   function render() {
-    pips.innerHTML = pipsHtml();
+    if (!pips) return;
+    pips.innerHTML = STEPS.map(function (_, i) {
+      return '<span class="bk-pip' + (i + 1 <= state.step - 1 ? " is-done" : "") + '"></span>';
+    }).join("");
     backBtn.style.visibility = state.step > 1 && state.step < 5 ? "visible" : "hidden";
     nextBtn.hidden = state.step > 3;
     nextBtn.disabled = !canAdvance();
@@ -211,8 +238,7 @@
             '<span class="bk-opt-t">' + s.name + '</span>' +
             '<span class="bk-opt-s">' + s.length + (s.price ? " · $" + s.price : " · price on the day") + '</span>' +
           '</button>';
-        }).join("") +
-        '</div>';
+        }).join("") + '</div>';
     }
 
     if (state.step === 2) {
@@ -225,14 +251,13 @@
         trainers.map(function (t) {
           return '<button type="button" class="bk-opt' + (state.trainer === (t.slug || null) ? " is-on" : "") + '" data-trainer-opt="' + t.slug + '">' +
             '<span class="bk-opt-t">' + t.name + '</span><span class="bk-opt-s">' + t.role + '</span></button>';
-        }).join("") +
-        '</div>';
+        }).join("") + '</div>';
     }
 
     if (state.step === 3) {
       var ds = days();
-      var chosen = state.day || ds[0];
-      if (!state.day) state.day = chosen;
+      if (!state.day) state.day = ds[0];
+      var chosen = state.day;
       var open = slots(chosen, state.trainer);
       body.innerHTML =
         '<p class="bk-kicker">Step three · ' + trainerName(state.trainer) + '</p><h2 class="bk-h">Pick a day and a time.</h2>' +
@@ -243,19 +268,16 @@
           return '<button type="button" class="bk-day' + (on ? " is-on" : "") + '" data-day="' + i + '">' +
             '<span class="bk-day-d">' + d.toLocaleDateString("en-NZ", { weekday: "short" }) + '</span>' +
             '<span class="bk-day-n">' + d.getDate() + '</span></button>';
-        }).join("") +
-        '</div>' +
+        }).join("") + '</div>' +
         (open.length
-          ? '<div class="bk-times">' + open.map(function (s) {
-              return '<button type="button" class="bk-time' + (state.time === s.label ? " is-on" : "") + '" data-time="' + s.label + '">' + s.label + '</button>';
+          ? '<div class="bk-times">' + open.map(function (t) {
+              return '<button type="button" class="bk-time' + (state.time === t ? " is-on" : "") + '" data-time="' + t + '">' + t + '</button>';
             }).join("") + '</div>'
-          : '<p class="bk-note">Nothing open that day. Try another.</p>') +
-        '';
+          : '<p class="bk-note">Nothing open that day. Try another.</p>');
     }
 
     if (state.step === 4) {
-      var s = session();
-      var price = s && s.price ? s.price : 0;
+      var s = session(), price = s && s.price ? s.price : 0;
       body.innerHTML =
         '<p class="bk-kicker">Step four</p><h2 class="bk-h">Last bit.</h2>' +
         '<div class="bk-summary"><dl>' +
@@ -283,8 +305,8 @@
     }
 
     if (state.step === 5) {
-      var ref = "RV-" + String(hash(state.email + state.time + state.day.toISOString())).slice(0, 5);
       var ss = session();
+      var ref = "RV-" + String(hash(state.email + state.time + state.day.toISOString())).slice(0, 5);
       body.innerHTML =
         '<div class="bk-done">' +
           '<div class="bk-done-mark" aria-hidden="true">✓</div>' +
@@ -292,51 +314,24 @@
           '<p>' + (ss ? ss.name : "Session") + ' with ' + trainerName(state.trainer) + ', ' +
             state.day.toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long" }) + ' at ' + state.time + '.</p>' +
           '<p class="bk-note">Reference <span class="bk-ref">' + ref + '</span></p>' +
-          '<p class="bk-note">In the real build this lands in the studio diary and sends you a text and an email confirmation.</p>' +
+          '<p class="bk-note">In the real build this lands in the studio diary and sends a text and an email confirmation.</p>' +
         '</div>';
     }
-  }
-
-  function escapeAttr(s) {
-    return String(s || "").replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  function canAdvance() {
-    if (state.step === 1) return !!state.sessionId;
-    if (state.step === 2) return true;
-    if (state.step === 3) return !!(state.day && state.time);
-    return true;
   }
 
   dialog.addEventListener("click", function (e) {
     var t = e.target.closest("[data-session],[data-trainer-opt],[data-day],[data-time],#bk-confirm");
     if (!t) return;
 
-    if (t.hasAttribute("data-session")) {
-      state.sessionId = t.getAttribute("data-session");
-      render();
-      return;
-    }
+    if (t.hasAttribute("data-session")) { state.sessionId = t.getAttribute("data-session"); render(); return; }
     if (t.hasAttribute("data-trainer-opt")) {
       var v = t.getAttribute("data-trainer-opt");
-      state.trainer = v ? v : null;
-      state.time = null;
-      render();
-      return;
+      state.trainer = v ? v : null; state.time = null; render(); return;
     }
     if (t.hasAttribute("data-day")) {
-      state.day = days()[Number(t.getAttribute("data-day"))];
-      state.time = null;
-      render();
-      return;
+      state.day = days()[Number(t.getAttribute("data-day"))]; state.time = null; render(); return;
     }
-    if (t.hasAttribute("data-time")) {
-      state.time = t.getAttribute("data-time");
-      render();
-      return;
-    }
+    if (t.hasAttribute("data-time")) { state.time = t.getAttribute("data-time"); render(); return; }
     if (t.id === "bk-confirm") {
       var name = body.querySelector('input[name="name"]');
       var email = body.querySelector('input[name="email"]');
@@ -344,15 +339,11 @@
       state.name = name ? name.value.trim() : "";
       state.email = email ? email.value.trim() : "";
       state.phone = phone ? phone.value.trim() : "";
-      if (!state.name || !state.email) {
-        if (name && !state.name) name.focus();
-        else if (email) email.focus();
-        return;
-      }
+      if (!state.name) { if (name) name.focus(); return; }
+      if (!state.email) { if (email) email.focus(); return; }
       var card = body.querySelector('input[name="card"]');
       if (card && card.value.replace(/\s/g, "").length < 12) { card.focus(); return; }
-      state.step = 5;
-      render();
+      state.step = 5; render();
     }
   });
 
@@ -378,14 +369,12 @@
     var b = e.target.closest("[data-book]");
     if (!b) return;
     e.preventDefault();
-    var slug = b.getAttribute("data-trainer");
-    if (dialog.open) { closeSheet(); }
-    openBooking(slug || null);
+    document.body.classList.remove("menu-open");
+    var bgr = document.getElementById("burger");
+    if (bgr) bgr.setAttribute("aria-expanded", "false");
+    openBooking(b.getAttribute("data-trainer"));
   });
 
-  dialog.addEventListener("close", function () { /* nothing to restore for a demo */ });
-
-  /* number formatting for the fake card fields */
   dialog.addEventListener("input", function (e) {
     var i = e.target;
     if (i.name === "card") {

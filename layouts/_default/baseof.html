@@ -12,16 +12,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="{{ "favicon.png" | relURL }}">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
-  <script src="{{ "js/htmx.min.js" | relURL }}" defer></script>
   <script src="{{ "js/app.js" | relURL }}" defer></script>
 </head>
 <body>
   {{ partial "nav.html" . }}
   {{ block "main" . }}{{ end }}
   {{ partial "footer.html" . }}
-  <div class="sheet-wrap" id="sheet-wrap" aria-hidden="true">
-    <div class="sheet-scrim" data-close-sheet></div>
-    <div id="sheet" class="sheet"></div>
-  </div>
 </body>
 </html>
