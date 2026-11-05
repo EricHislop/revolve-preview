@@ -1364,3 +1364,13 @@ body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
 .quote { display: flex; flex-direction: column; min-height: 200px; }
 .quote figcaption { margin-top: auto; padding-top: 14px; }
 .find-list a[href*="google.com/maps"] { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+/* the phone must not split, and the address gets its own line */
+.hero-foot span:last-child { white-space: nowrap; }
+@media (max-width: 620px) {
+  .hero-foot { flex-wrap: wrap; gap: 4px 10px; }
+  .hero-foot span:first-child { flex: 1 1 100%; }
+}
+@media (max-width: 360px) {
+  .nav-book { display: none; }
+}
