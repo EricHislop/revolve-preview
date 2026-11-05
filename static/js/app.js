@@ -296,7 +296,7 @@
           '<label class="bk-field"><span>Mobile</span><input name="phone" inputmode="tel" autocomplete="tel" value="' + escapeAttr(state.phone) + '" placeholder="021 000 0000"></label>' +
         '</div>' +
         '<p class="bk-err" hidden>Check that email address.</p>' +
-        '<p class="bk-note">' + (price ? "Session $" + price + ", paid at the studio. No card needed now." : "Paid at the studio.") + '</p>' +
+        (price ? '<p class="bk-note">Session $' + price + ', paid at the studio. No card needed now.</p>' : '') +
         '<button type="button" class="btn btn--accent btn--wide" id="bk-confirm">Request this time</button>';
     }
 
