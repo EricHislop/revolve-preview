@@ -309,7 +309,7 @@
           '<h2 class="bk-h">That time is held for you.</h2>' +
           '<p>' + (ss ? ss.name : "Session") + ' with ' + trainerName(state.trainer) + ', ' +
             state.day.toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long" }) + ' at ' + state.time + '.</p>' +
-          '<p class="bk-note">We will text ' + (state.phone || state.email) + ' today to confirm. Reference <span class="bk-ref">' + ref + '</span></p>' +
+          '<p class="bk-note">' + (state.phone ? "We will text " + state.phone : "We will email " + state.email) + ' today to confirm. Reference <span class="bk-ref">' + ref + '</span></p>' +
           '<p class="bk-note">Need to change it? Call 04 232 3497.</p>' +
         '</div>';
     }
