@@ -25,7 +25,7 @@ services:
     body: "Supervised classes for strength, balance, bone density and confidence. Running for more than 20 years."
     meta: "Mark leads it"
   - title: "Massage"
-    body: "Deep tissue and sports massage for recovery, booked with one of our therapists."
+    body: "Deep tissue, sports and pregnancy massage with Lauryn, Raewyn or Fran. Prenatal yoga on Sundays."
     meta: "By appointment"
 reviews:
   - text: "The team at Revolve Fitness are absolutely amazing. Super friendly and motivating, I highly recommend."
@@ -44,6 +44,16 @@ reviews:
     name: "Chrissy Williams"
   - text: "Super affordable PT sessions, and the trainers are lovely to deal with."
     name: "Hannah Johnston"
+therapists:
+  - slug: "lauryn"
+    name: "Lauryn Johnston"
+    role: "Massage therapist and yoga teacher"
+  - slug: "raewyn"
+    name: "Raewyn"
+    role: "Massage therapist, MANZ level 6"
+  - slug: "fran"
+    name: "Fran Leslie"
+    role: "Remedial massage therapist"
 booking:
   intro: "Pick a session, a trainer and a time. First session is a chat about what you want, not a sales pitch."
   sessions:

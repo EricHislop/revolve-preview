@@ -1306,3 +1306,61 @@ body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
 @media (max-width: 860px) {
   [data-theme="volt"] .slide-surname { place-items: center start; padding-left: 20px; font-size: clamp(34px, 10vw, 58px); }
 }
+
+/* error state on the only field that can really go wrong */
+.bk-err { margin: 10px 0 0; font-size: 12.5px; font-weight: 600; color: #ff7a6b; }
+[data-theme="bone"] .bk-err, [data-theme="chalk"] .bk-err { color: #b3261e; }
+
+/* ---------- pass fifteen: phone usability ---------- */
+@media (max-width: 860px) {
+  .deck-dots { gap: 6px; }
+  .deck-dots button { width: 8px; height: 8px; position: relative; }
+  .deck-dots button::after { content: ""; position: absolute; inset: -18px -10px; }
+  .nav-book, #look-btn, .burger { min-height: 44px; }
+  .burger { width: 44px; height: 44px; }
+  .deck-count { font-size: 12px; letter-spacing: 0.12em; }
+  .deck-count::after { content: " · swipe"; color: var(--muted); }
+  .mobmenu a, .mobmenu button { min-height: 48px; }
+  .foot-links a { padding: 6px 0; }
+}
+
+/* the dots become real 40x44 tap targets on a phone, with the dot drawn inside */
+@media (max-width: 860px) {
+  .deck-dots { gap: 0; }
+  .deck-dots button {
+    width: 40px; height: 44px; padding: 0; border: 0; border-radius: 0;
+    background: transparent; position: relative; display: grid; place-items: center;
+  }
+  .deck-dots button::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: color-mix(in srgb, var(--ink) 28%, transparent);
+    transition: width 0.25s var(--ease), background 0.25s;
+  }
+  .deck-dots button.is-on { width: 40px; border-radius: 0; background: transparent; }
+  .deck-dots button.is-on::before { width: 22px; border-radius: 999px; background: var(--accent); }
+  .deck-dots button::after { display: none; }
+}
+
+@media (max-width: 860px) {
+  .deck-ui { gap: 8px; }
+  .deck-ui > .round { display: none; }
+  .deck-dots { flex: 1; gap: 0; min-width: 0; }
+  .deck-dots button { width: 28px; height: 44px; }
+  .deck-dots button.is-on { width: 28px; }
+  .deck-count { font-size: 10.5px; letter-spacing: 0.08em; white-space: nowrap; }
+}
+
+/* ---------- pass sixteen: balance the last two sections ---------- */
+.quotes { columns: 4; }
+@media (max-width: 1180px) { .quotes { columns: 3; } }
+@media (max-width: 860px)  { .quotes { columns: 2; } }
+@media (max-width: 560px)  { .quotes { columns: 1; } }
+.find-panel { max-height: 560px; }
+.find-panel img { height: 100%; min-height: 380px; }
+.book-step-b { font-size: 14px; color: color-mix(in srgb, var(--ink) 68%, transparent); }
+@media (max-width: 860px) { .find-panel { max-height: none; } .find-panel img { min-height: 300px; } }
+
+/* equal cards, names on the baseline, and a directions link that looks like one */
+.quote { display: flex; flex-direction: column; min-height: 200px; }
+.quote figcaption { margin-top: auto; padding-top: 14px; }
+.find-list a[href*="google.com/maps"] { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }

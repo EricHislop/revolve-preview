@@ -155,7 +155,7 @@
           <div class="book-step">
             <span class="book-step-n">3</span>
             <div><span class="book-step-t">Pick a time</span>
-              <p class="book-step-b">The next two weeks, half hour slots, confirmed on the spot.</p></div>
+              <p class="book-step-b">The next two weeks, half hour slots, most days.</p></div>
           </div>
         </div>
         <p class="book-offer">First session is a chat, not a workout. No pressure, no contract.</p>
@@ -197,6 +197,7 @@
           <li><span>Mobile</span><a href="tel:+64274588674">{{ .Site.Params.mobile }}</a></li>
           <li><span>Email</span><a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
           <li><span>Facebook</span><a href="{{ .Site.Params.facebook }}" target="_blank" rel="noopener">FitnessbyRevolve</a></li>
+          <li><span>Directions</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Revolve+Fitness+210+Main+Road+Tawa" target="_blank" rel="noopener">Open in Maps</a></li>
         </ul>
       </div>
       <div class="find-panel">
@@ -214,6 +215,6 @@
 {{ range sort (where .Site.RegularPages "Section" "trainers") "Params.order" }}
   {{ $ts = $ts | append (dict "slug" .File.BaseFileName "name" .Title "role" .Params.role) }}
 {{ end }}
-<script type="application/json" id="site-data">{{ dict "sessions" .Params.booking.sessions "trainers" $ts | jsonify | safeJS }}</script>
+<script type="application/json" id="site-data">{{ dict "sessions" .Params.booking.sessions "trainers" $ts "therapists" .Params.therapists | jsonify | safeJS }}</script>
 </main>
 {{ end }}

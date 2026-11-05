@@ -3,7 +3,7 @@
   "use strict";
 
   var raw = document.getElementById("site-data");
-  var DATA = raw ? JSON.parse(raw.textContent) : { sessions: [], trainers: [] };
+  var DATA = raw ? JSON.parse(raw.textContent) : { sessions: [], trainers: [], therapists: [] };
 
   /* ---------------- theme ---------------- */
 
@@ -183,7 +183,7 @@
   }
   function trainerName(slug) {
     if (!slug) return "Any trainer";
-    var t = DATA.trainers.filter(function (x) { return x.slug === slug; })[0];
+    var t = DATA.trainers.concat(DATA.therapists || []).filter(function (x) { return x.slug === slug; })[0];
     return t ? t.name : slug;
   }
   function days() {
@@ -242,11 +242,14 @@
     }
 
     if (state.step === 2) {
-      var trainers = [{ slug: "", name: "Any trainer", role: "We will match you" }].concat(
-        DATA.trainers.map(function (t) { return { slug: t.slug, name: t.name, role: t.role }; })
+      var massage = state.sessionId === "massage";
+      var pool = massage ? (DATA.therapists || []) : DATA.trainers;
+      var trainers = [{ slug: "", name: massage ? "Anyone" : "Any trainer", role: "We will match you" }].concat(
+        pool.map(function (t) { return { slug: t.slug, name: t.name, role: t.role }; })
       );
       body.innerHTML =
-        '<p class="bk-kicker">Step two · ' + (session() ? session().name + ", " + session().length : "") + '</p><h2 class="bk-h">Who do you want to train with?</h2>' +
+        '<p class="bk-kicker">Step two · ' + (session() ? session().name + ", " + session().length : "") + '</p><h2 class="bk-h">' +
+        (massage ? "Who would you like to see?" : "Who do you want to train with?") + '</h2>' +
         '<div class="bk-grid">' +
         trainers.map(function (t) {
           return '<button type="button" class="bk-opt' + (state.trainer === (t.slug || null) ? " is-on" : "") + '" data-trainer-opt="' + t.slug + '">' +
@@ -292,6 +295,7 @@
           '<label class="bk-field"><span>Email</span><input name="email" type="email" autocomplete="email" value="' + escapeAttr(state.email) + '" placeholder="you@email.co.nz"></label>' +
           '<label class="bk-field"><span>Mobile</span><input name="phone" inputmode="tel" autocomplete="tel" value="' + escapeAttr(state.phone) + '" placeholder="021 000 0000"></label>' +
         '</div>' +
+        '<p class="bk-err" hidden>Check that email address.</p>' +
         '<p class="bk-note">' + (price ? "Session $" + price + ", paid at the studio. No card needed now." : "Paid at the studio.") + '</p>' +
         '<button type="button" class="btn btn--accent btn--wide" id="bk-confirm">Request this time</button>';
     }
@@ -315,7 +319,10 @@
     var t = e.target.closest("[data-session],[data-trainer-opt],[data-day],[data-time],#bk-confirm");
     if (!t) return;
 
-    if (t.hasAttribute("data-session")) { state.sessionId = t.getAttribute("data-session"); render(); return; }
+    if (t.hasAttribute("data-session")) {
+      if (state.sessionId !== t.getAttribute("data-session")) state.trainer = null;
+      state.sessionId = t.getAttribute("data-session"); render(); return;
+    }
     if (t.hasAttribute("data-trainer-opt")) {
       var v = t.getAttribute("data-trainer-opt");
       state.trainer = v ? v : null; state.time = null; render(); return;
@@ -331,8 +338,14 @@
       state.name = name ? name.value.trim() : "";
       state.email = email ? email.value.trim() : "";
       state.phone = phone ? phone.value.trim() : "";
+      var err = body.querySelector(".bk-err");
+      if (err) err.hidden = true;
       if (!state.name) { if (name) name.focus(); return; }
-      if (!state.email) { if (email) email.focus(); return; }
+      if (!state.email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.email)) {
+        if (err) err.hidden = false;
+        if (email) email.focus();
+        return;
+      }
       state.step = 5; render();
     }
   });
