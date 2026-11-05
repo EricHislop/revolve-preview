@@ -151,6 +151,9 @@
 
   /* ---------------- booking ---------------- */
 
+  /* the booking dialog only exists where the data does */
+  if (!document.getElementById("site-data")) return;
+
   var dialog = document.createElement("dialog");
   dialog.className = "bk";
   dialog.id = "bk";
@@ -163,6 +166,10 @@
       '<button type="button" class="icon-btn bk-x" id="bk-close" aria-label="Close booking"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6"/></svg></button>' +
     "</div></div>";
   document.body.appendChild(dialog);
+
+  if (window.location.hash === "#book") {
+    window.setTimeout(function () { if (!dialog.open) dialog.showModal(); }, 250);
+  }
 
   var body = dialog.querySelector("#bk-body");
   var pips = dialog.querySelector("#bk-pips");

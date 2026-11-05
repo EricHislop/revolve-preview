@@ -3,10 +3,11 @@
     <img class="brand-logo" src="{{ "img/logo.png" | relURL }}" alt="Revolve Fitness" width="180" height="48">
   </a>
   <nav class="nav-links" aria-label="Main">
-    <a href="#trainers">Trainers</a>
-    <a href="#sessions">Sessions</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#find">Find us</a>
+    <a href="{{ .Site.Home.RelPermalink }}#trainers">Trainers</a>
+    <a href="{{ .Site.Home.RelPermalink }}#sessions">Sessions</a>
+    <a href="{{ .Site.Home.RelPermalink }}#reviews">Reviews</a>
+    <a href="{{ .Site.Home.RelPermalink }}#find">Find us</a>
+    <a href="{{ "how-it-works/" | relURL }}"{{ if eq .RelPermalink ("/how-it-works/") }}{{ end }}>How it works</a>
   </nav>
 
   <div class="look" data-look>
@@ -31,17 +32,18 @@
     </div>
   </div>
 
-  <a class="btn btn--accent nav-book" href="#book" data-book>Book a session</a>
+  <a class="btn btn--accent nav-book" href="{{ .Site.Home.RelPermalink }}#book" data-book>Book a session</a>
   <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobmenu">
     <span></span><span></span>
   </button>
 </header>
 
 <div class="mobmenu" id="mobmenu" aria-hidden="true">
-  <a href="#trainers">Trainers</a>
-  <a href="#sessions">Sessions</a>
-  <a href="#reviews">Reviews</a>
-  <a href="#find">Find us</a>
+  <a href="{{ .Site.Home.RelPermalink }}#trainers">Trainers</a>
+  <a href="{{ .Site.Home.RelPermalink }}#sessions">Sessions</a>
+  <a href="{{ .Site.Home.RelPermalink }}#reviews">Reviews</a>
+  <a href="{{ .Site.Home.RelPermalink }}#find">Find us</a>
+    <a href="{{ "how-it-works/" | relURL }}"{{ if eq .RelPermalink ("/how-it-works/") }}{{ end }}>How it works</a>
   <div class="mob-look">
     <p>Look</p>
     <div class="mob-swatches">
@@ -51,5 +53,5 @@
       <button type="button" data-theme-set="chalk" aria-label="Chalk" class="sw sw-chalk"></button>
     </div>
   </div>
-  <button class="btn btn--accent" type="button" data-book>Book a session</button>
+  <a class="btn btn--accent" href="{{ .Site.Home.RelPermalink }}#book" data-book>Book a session</a>
 </div>

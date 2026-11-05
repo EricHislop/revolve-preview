@@ -1,0 +1,110 @@
+{{ define "main" }}
+<main id="top" class="hiw">
+
+  <section class="hiw-hero">
+    <div class="wrap">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span>How this works</p>
+      <h1 class="h2 hiw-title">A website you can <em>message</em>.</h1>
+      <p class="hiw-lede">There is no dashboard to learn, no plugins to update and no monthly website subscription. When something needs to change, you send a message and it is done.</p>
+    </div>
+  </section>
+
+  <section class="section hiw-compare">
+    <div class="wrap">
+      <h2 class="h2 hiw-h">Different from<br>Squarespace.</h2>
+      <div class="cmp" role="table" aria-label="Squarespace compared with this site">
+        <div class="cmp-row cmp-head" role="row">
+          <span role="columnheader"></span>
+          <span role="columnheader">Squarespace</span>
+          <span role="columnheader">Built for you</span>
+        </div>
+        <div class="cmp-row" role="row"><span role="rowheader">Who puts it together</span><span class="cmp-a" role="cell" data-label="Squarespace">You, filling in a template</span><span class="cmp-b" role="cell" data-label="Built for you">I build it for you</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">To change something</span><span class="cmp-a" role="cell" data-label="Squarespace">You log in and move blocks around</span><span class="cmp-b" role="cell" data-label="Built for you">You send a message</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">What you pay for</span><span class="cmp-a" role="cell" data-label="Squarespace">A subscription, every month</span><span class="cmp-b" role="cell" data-label="Built for you">One build price, then AI as you go</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">Fixes and updates</span><span class="cmp-a" role="cell" data-label="Squarespace">Plugins, themes, and you</span><span class="cmp-b" role="cell" data-label="Built for you">Me</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">Speed</span><span class="cmp-a" role="cell" data-label="Squarespace">Depends on what you have added</span><span class="cmp-b" role="cell" data-label="Built for you">Plain pages that load fast</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">If you leave</span><span class="cmp-a" role="cell" data-label="Squarespace">You take what the platform gives you</span><span class="cmp-b" role="cell" data-label="Built for you">The pages are yours</span></div>
+      </div>
+      <p class="hiw-note">Squarespace is a good product. This is a different arrangement rather than a better template: a site built for you, and a person you can message.</p>
+    </div>
+  </section>
+
+  <section class="section hiw-how">
+    <div class="wrap">
+      <h2 class="h2 hiw-h">How a change<br>happens.</h2>
+      <ol class="hiw-steps">
+        <li>
+          <span class="hiw-step-n">1</span>
+          <h3>You message</h3>
+          <p>Telegram or WhatsApp, whichever you already use. Say it the way you would say it out loud.</p>
+        </li>
+        <li>
+          <span class="hiw-step-n">2</span>
+          <h3>I make it</h3>
+          <p>Usually the same day. If it is a bigger job, I tell you when it will be finished.</p>
+        </li>
+        <li>
+          <span class="hiw-step-n">3</span>
+          <h3>It is live</h3>
+          <p>You get a message back with the link, so you can check it yourself.</p>
+        </li>
+      </ol>
+
+      <div class="chat" aria-label="Example messages">
+        <div class="chat-row chat-them"><span class="chat-bubble">Can you change the Tuesday class to 6pm?</span></div>
+        <div class="chat-row chat-me"><span class="chat-bubble">Done, it is live now.</span></div>
+        <div class="chat-row chat-them"><span class="chat-bubble">And add Lauryn to the massage page</span></div>
+        <div class="chat-row chat-me"><span class="chat-bubble">Added.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hiw-money">
+    <div class="wrap">
+      <h2 class="h2 hiw-h">What you<br>pay for.</h2>
+      <div class="hiw-cost">
+        <article class="cost">
+          <h3>The build</h3>
+          <p>One price for the site, agreed before I start. Not an hourly meter running while we talk about it.</p>
+        </article>
+        <article class="cost">
+          <h3>AI as you go</h3>
+          <p>The assistant runs on AI, and AI is charged by use, like power. A quiet month costs less than a busy one, and you are not buying a seat or a plan.</p>
+        </article>
+        <article class="cost">
+          <h3>No platform fee</h3>
+          <p>You are not renting a website builder, so there is no subscription for the site simply being there.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hiw-never">
+    <div class="wrap">
+      <h2 class="h2 hiw-h">What you never<br>have to do.</h2>
+      <ul class="never">
+        <li>Remember a login</li>
+        <li>Update a plugin</li>
+        <li>Fix the layout after an update</li>
+        <li>Renew a security certificate</li>
+        <li>Check that the backup ran</li>
+        <li>Learn a page builder</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section hiw-leave">
+    <div class="wrap">
+      <h2 class="h2 hiw-h">If you ever<br>want to leave.</h2>
+      <p class="hiw-leave-copy">The pages are plain files, and they are yours. Another developer can pick them up, or you can move them somewhere else. Nothing is locked to me.</p>
+      <p class="hiw-cta-line">Send me a message and ask for a change. I will do it while you watch.</p>
+      <p class="hiw-cta">
+        {{ $tel := printf "+64%s" (strings.TrimPrefix "0" (replaceRE "[^0-9]" "" .Site.Params.phone)) }}
+        <a class="btn btn--accent" href="tel:{{ $tel }}">{{ .Site.Params.phone }}</a>
+        <a class="btn btn--ghost" href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+{{ end }}
