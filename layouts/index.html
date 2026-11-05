@@ -47,7 +47,7 @@
         <article class="slide" data-slide aria-roledescription="slide" aria-label="{{ .Title }}">
           <div class="slide-media{{ if not $p.Params.photo }} slide-media--typo{{ end }}">
             {{ with $p.Params.photo }}
-            <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $p.Title }}" loading="lazy" decoding="async">
+            <img src="{{ printf "img/%s" . | relURL }}" alt="{{ $p.Title }}" loading="lazy" decoding="async" style="object-position:{{ with $p.Params.photo_pos }}{{ . }}{{ else }}50% 50%{{ end }}">
             {{ else }}
             {{ $bg := index (slice "gym-photo-1.jpg" "gym-photo-2.jpg" "gym-photo-3.jpg") (mod $i 3) }}
             <img class="slide-bg" src="{{ printf "img/%s" $bg | relURL }}" alt="" loading="lazy" decoding="async">

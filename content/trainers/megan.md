@@ -2,7 +2,8 @@
 title = "Megan Duell"
 role = "Director, Personal Trainer"
 initials = "MD"
-photo = ""
+photo = "megan.jpg"
+photo_pos = "50% 38%"
 order = 1
 specialities = ["Rehabilitation", "Strength", "Cardiac rehab"]
 qualifications = ["BSc Health Science, Sport & Exercise", "Postgraduate Diploma in Exercise Science"]
