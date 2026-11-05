@@ -1427,3 +1427,4 @@ body.menu-open .mobmenu { padding-top: 96px; z-index: 70; }
   .hiw-steps, .hiw-cost, .never { grid-template-columns: 1fr; }
   .never { gap: 0; }
 }
+.hiw-leave { padding-bottom: clamp(60px, 9vw, 110px); }

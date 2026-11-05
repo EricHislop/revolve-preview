@@ -20,7 +20,7 @@
         </div>
         <div class="cmp-row" role="row"><span role="rowheader">Who puts it together</span><span class="cmp-a" role="cell" data-label="Squarespace">You, filling in a template</span><span class="cmp-b" role="cell" data-label="Built for you">I build it for you</span></div>
         <div class="cmp-row" role="row"><span role="rowheader">To change something</span><span class="cmp-a" role="cell" data-label="Squarespace">You log in and move blocks around</span><span class="cmp-b" role="cell" data-label="Built for you">You send a message</span></div>
-        <div class="cmp-row" role="row"><span role="rowheader">What you pay for</span><span class="cmp-a" role="cell" data-label="Squarespace">A subscription, every month</span><span class="cmp-b" role="cell" data-label="Built for you">One build price, then AI as you go</span></div>
+        <div class="cmp-row" role="row"><span role="rowheader">What you pay for</span><span class="cmp-a" role="cell" data-label="Squarespace">A subscription, every month</span><span class="cmp-b" role="cell" data-label="Built for you">One build price, then small charges as you use it</span></div>
         <div class="cmp-row" role="row"><span role="rowheader">Fixes and updates</span><span class="cmp-a" role="cell" data-label="Squarespace">Plugins, themes, and you</span><span class="cmp-b" role="cell" data-label="Built for you">Me</span></div>
         <div class="cmp-row" role="row"><span role="rowheader">Speed</span><span class="cmp-a" role="cell" data-label="Squarespace">Depends on what you have added</span><span class="cmp-b" role="cell" data-label="Built for you">Plain pages that load fast</span></div>
         <div class="cmp-row" role="row"><span role="rowheader">If you leave</span><span class="cmp-a" role="cell" data-label="Squarespace">You take what the platform gives you</span><span class="cmp-b" role="cell" data-label="Built for you">The pages are yours</span></div>
@@ -68,12 +68,12 @@
           <p>One price for the site, agreed before I start. Not an hourly meter running while we talk about it.</p>
         </article>
         <article class="cost">
-          <h3>AI as you go</h3>
-          <p>The assistant runs on AI, and AI is charged by use, like power. A quiet month costs less than a busy one, and you are not buying a seat or a plan.</p>
+          <h3>Small charges as you go</h3>
+          <p>Every change I make uses a little AI, and that is charged by use, like power. A quiet month costs less than a busy one. There is no monthly plan and no charge per person.</p>
         </article>
         <article class="cost">
-          <h3>No platform fee</h3>
-          <p>You are not renting a website builder, so there is no subscription for the site simply being there.</p>
+          <h3>No monthly website bill</h3>
+          <p>You are not renting a website builder, so there is no subscription just to keep the site online.</p>
         </article>
       </div>
     </div>
@@ -82,11 +82,12 @@
   <section class="section hiw-never">
     <div class="wrap">
       <h2 class="h2 hiw-h">What you never<br>have to do.</h2>
+      <p class="hiw-note">All the jobs that come with running your own website. None of them are yours any more.</p>
       <ul class="never">
         <li>Remember a login</li>
-        <li>Update a plugin</li>
+        <li>Update an add-on</li>
         <li>Fix the layout after an update</li>
-        <li>Renew a security certificate</li>
+        <li>Renew the security certificate</li>
         <li>Check that the backup ran</li>
         <li>Learn a page builder</li>
       </ul>
@@ -96,8 +97,8 @@
   <section class="section hiw-leave">
     <div class="wrap">
       <h2 class="h2 hiw-h">If you ever<br>want to leave.</h2>
-      <p class="hiw-leave-copy">The pages are plain files, and they are yours. Another developer can pick them up, or you can move them somewhere else. Nothing is locked to me.</p>
-      <p class="hiw-cta-line">Send me a message and ask for a change. I will do it while you watch.</p>
+      <p class="hiw-leave-copy">Your site is a set of ordinary files, and they belong to you. Another developer can pick them up, or you can move them somewhere else. Nothing is locked to me.</p>
+      <p class="hiw-cta-line">Send me a message and ask for a change. You can watch it happen.</p>
       <p class="hiw-cta">
         {{ $tel := printf "+64%s" (strings.TrimPrefix "0" (replaceRE "[^0-9]" "" .Site.Params.phone)) }}
         <a class="btn btn--accent" href="tel:{{ $tel }}">{{ .Site.Params.phone }}</a>
